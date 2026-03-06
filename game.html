@@ -31,14 +31,16 @@
         </div>
 
         <div class="top-right game-meta">
-          <div class="hearts" id="hearts"></div>
-          <div class="user-bar" id="userBar">
-            <span class="user-chip" id="userChip"></span>
-            <button class="btn ghost" id="logoutBtn" type="button">Logout</button>
-          </div>
-          <div class="top-actions">
-            <button class="btn ghost" id="resetBtn" type="button">Reset Run</button>
-            <button class="btn" id="adminBtn" type="button">Admin Studio</button>
+          <div class="game-meta-shell">
+            <div class="hearts" id="hearts"></div>
+            <div class="user-bar" id="userBar">
+              <span class="user-chip" id="userChip"></span>
+              <button class="btn ghost" id="logoutBtn" type="button">Logout</button>
+            </div>
+            <div class="top-actions">
+              <button class="btn ghost" id="resetBtn" type="button">Reset Run</button>
+              <button class="btn" id="adminBtn" type="button">Admin Studio</button>
+            </div>
           </div>
         </div>
       </header>
@@ -81,21 +83,24 @@
       <div class="modal hidden" id="adminModal" aria-hidden="true">
         <div class="modal-card">
           <header class="modal-head">
-            <div>
+            <div class="modal-head-copy">
               <p class="eyebrow">Admin Studio</p>
               <h2>Design the world</h2>
+              <p class="hint modal-subtitle">Tune the map, characters, questions, settings, and live stats.</p>
             </div>
             <button class="btn ghost" id="adminClose" type="button">Close</button>
           </header>
 
           <div class="admin-body" id="adminBody">
-            <nav class="admin-tabs" id="adminTabs">
-              <button class="tab is-active" data-tab="map" type="button">Map</button>
-              <button class="tab" data-tab="characters" type="button">Characters</button>
-              <button class="tab" data-tab="levels" type="button">Levels</button>
-              <button class="tab" data-tab="settings" type="button">Settings</button>
-              <button class="tab" data-tab="analytics" type="button">Analytics</button>
-            </nav>
+            <div class="admin-tabs-wrap">
+              <nav class="admin-tabs" id="adminTabs">
+                <button class="tab is-active" data-tab="map" type="button">Map</button>
+                <button class="tab" data-tab="characters" type="button">Characters</button>
+                <button class="tab" data-tab="levels" type="button">Levels</button>
+                <button class="tab" data-tab="settings" type="button">Settings</button>
+                <button class="tab" data-tab="analytics" type="button">Analytics</button>
+              </nav>
+            </div>
 
             <div class="admin-content">
               <section class="admin-section" id="adminMap"></section>

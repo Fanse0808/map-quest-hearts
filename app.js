@@ -718,8 +718,19 @@ function renderAdmin() {
   renderAdminAnalytics();
 }
 
+function adminLead(title, text) {
+  return `
+    <section class="admin-lead">
+      <p class="eyebrow">Studio View</p>
+      <h3>${escapeHtml(title)}</h3>
+      <p class="hint">${escapeHtml(text)}</p>
+    </section>
+  `;
+}
+
 function renderAdminMap() {
   el.adminMap.innerHTML = `
+    ${adminLead("Map layout", "Move the path, swap backgrounds, and keep the route easy to read on mobile.")}
     <div class="field-grid">
       <label>Map title<input id="draft-map-title" class="input" value="${escapeHtml(
         draftData.map.title
@@ -789,6 +800,7 @@ function renderAdminMap() {
 
 function renderAdminCharacters() {
   el.adminCharacters.innerHTML = `
+    ${adminLead("Character styling", "Update the player and NPC look without losing map balance.")}
     <div class="list" id="characterList">
       ${draftData.characters
         .map(
@@ -846,6 +858,7 @@ function renderAdminCharacters() {
 
 function renderAdminLevels() {
   el.adminLevels.innerHTML = `
+    ${adminLead("Level questions", "Keep each stop clear, readable, and easy to tap through on a phone.")}
     <div class="list" id="levelList">
       ${draftData.levels
         .map(
@@ -890,6 +903,7 @@ function renderAdminLevels() {
 
 function renderAdminSettings() {
   el.adminSettings.innerHTML = `
+    ${adminLead("Heart rules", "Tune the starting hearts and cap while keeping the game flow simple.")}
     <div class="field-grid">
       <label>Start hearts<input id="draft-start-hearts" class="input" value="${escapeHtml(
         draftData.settings.startHearts
@@ -905,21 +919,21 @@ function renderAdminSettings() {
 function renderAdminAnalytics() {
   if (!analyticsSummary) {
     el.adminAnalytics.innerHTML = `
-      <div class="analytics-grid">
-        <div class="list-row">
-          <strong>Analytics</strong>
-          <p class="hint">Press refresh to load latest metrics.</p>
-          <div class="row-actions">
-            <button class="btn ghost" data-action="refresh-analytics" type="button">Refresh</button>
-          </div>
+      ${adminLead("Live analytics", "See which levels are causing trouble and reload metrics anytime.")}
+      <div class="analytics-empty">
+        <div>
+          <strong>Analytics not loaded yet</strong>
+          <p class="hint">Press refresh to pull the latest stats from the server.</p>
         </div>
+        <button class="btn ghost" data-action="refresh-analytics" type="button">Refresh</button>
       </div>
     `;
     return;
   }
 
   el.adminAnalytics.innerHTML = `
-    <div class="analytics-grid">
+    ${adminLead("Live analytics", "Review overall activity and spot the levels people miss most often.")}
+    <div class="analytics-grid analytics-grid--summary">
       <div class="metric-card"><p class="eyebrow">Users</p><h3>${analyticsSummary.totalUsers}</h3></div>
       <div class="metric-card"><p class="eyebrow">Active Today</p><h3>${analyticsSummary.activeToday}</h3></div>
       <div class="metric-card"><p class="eyebrow">Attempts</p><h3>${analyticsSummary.totalAttempts}</h3></div>
@@ -927,17 +941,23 @@ function renderAdminAnalytics() {
       <div class="metric-card"><p class="eyebrow">Completed Runs</p><h3>${analyticsSummary.completedRuns}</h3></div>
       <div class="metric-card"><p class="eyebrow">Wrong Answers</p><h3>${analyticsSummary.wrongAnswers}</h3></div>
     </div>
-    <div class="list-row">
-      <header>
+    <div class="analytics-panel">
+      <header class="section-head">
         <strong>Top levels by wrong answers</strong>
         <div class="row-actions">
           <button class="btn ghost" data-action="refresh-analytics" type="button">Refresh</button>
         </div>
       </header>
-      <div class="list">
+      <div class="analytics-list">
         ${analyticsSummary.topLevels
           .map(
-            (item) => `<div class="analytics-row">Level ${item.levelId}: wrong ${item.wrong}, correct ${item.correct}</div>`
+            (item) => `
+              <div class="analytics-row">
+                <strong class="analytics-level">Level ${item.levelId}</strong>
+                <span class="analytics-pill analytics-pill--warn">Wrong ${item.wrong}</span>
+                <span class="analytics-pill analytics-pill--good">Correct ${item.correct}</span>
+              </div>
+            `
           )
           .join("") || "<p class='hint'>No answer events yet.</p>"}
       </div>

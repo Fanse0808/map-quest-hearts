@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: map-quest-hearts
+    runtime: ruby
+    plan: free
+    buildCommand: bundle install
+    startCommand: bundle exec ruby server.rb
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: BIND_ADDRESS
+        value: 0.0.0.0
+      - key: DB_PATH
+        value: /var/data/app.db
+      - key: UPLOAD_DIR
+        value: /var/data/uploads
+      - key: DEFAULT_ADMIN_USERNAME
+        value: admin
+      - key: DEFAULT_ADMIN_PASSWORD
+        generateValue: true
+    disks:
+      - name: data
+        mountPath: /var/data
+        sizeGB: 1

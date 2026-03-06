@@ -1,0 +1,11 @@
+.bundle/
+vendor/bundle/
+
+# Runtime data
+db/*.db
+db/*.sqlite3
+uploads/*
+!uploads/.keep
+
+# OS files
+.DS_Store

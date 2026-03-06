@@ -1,9 +1,11 @@
-const CACHE_NAME = "mapquest-static-v1";
+const CACHE_NAME = "mapquest-static-v2";
 const STATIC_ASSETS = [
   "/",
   "/index.html",
+  "/game.html",
   "/styles.css",
   "/app.js",
+  "/login.js",
   "/manifest.webmanifest",
   "/icon.svg",
   "/icon-maskable.svg"

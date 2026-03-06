@@ -1,5 +1,6 @@
 const API_BASE = "/api";
 const TOKEN_KEY = "mapquest.token.v2";
+const FLASH_KEY = "mapquest.flash.v1";
 
 const DEFAULT_DATA = {
   settings: {
@@ -124,11 +125,6 @@ const el = {
   importInput: document.getElementById("importInput"),
   saveBtn: document.getElementById("saveBtn"),
   saveHint: document.getElementById("saveHint"),
-  authForm: document.getElementById("authForm"),
-  usernameInput: document.getElementById("usernameInput"),
-  passwordInput: document.getElementById("passwordInput"),
-  loginBtn: document.getElementById("loginBtn"),
-  registerBtn: document.getElementById("registerBtn"),
   userBar: document.getElementById("userBar"),
   userChip: document.getElementById("userChip"),
   logoutBtn: document.getElementById("logoutBtn"),
@@ -156,15 +152,6 @@ async function init() {
 }
 
 function bindEvents() {
-  el.authForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    await login();
-  });
-
-  el.registerBtn.addEventListener("click", async () => {
-    await register();
-  });
-
   el.logoutBtn.addEventListener("click", async () => {
     await logout();
   });
@@ -353,17 +340,18 @@ async function bootstrap() {
       auth.user = response.user;
     } catch (error) {
       clearSession();
-      setAuthHint("Session expired. Please log in.");
+      redirectToLogin("Session expired. Please log in again.");
+      return;
     }
   }
 
-  renderAuth();
-
-  if (auth.user) {
-    await loadGame();
-  } else {
-    renderLoggedOut();
+  if (!auth.user) {
+    redirectToLogin("Please log in to continue.");
+    return;
   }
+
+  renderAuth();
+  await loadGame();
 }
 
 function isAdmin() {
@@ -378,68 +366,10 @@ function setSaveHint(message) {
   el.saveHint.textContent = message;
 }
 
-function setSession(token, user) {
-  auth.token = token;
-  auth.user = user;
-  localStorage.setItem(TOKEN_KEY, token);
-}
-
 function clearSession() {
   auth.token = "";
   auth.user = null;
   localStorage.removeItem(TOKEN_KEY);
-}
-
-async function login() {
-  const username = el.usernameInput.value.trim();
-  const password = el.passwordInput.value;
-
-  if (!username || !password) {
-    setAuthHint("Enter username and password.");
-    return;
-  }
-
-  try {
-    const response = await api("/auth/login", {
-      method: "POST",
-      body: { username, password },
-      allow401: true
-    });
-
-    setSession(response.token, response.user);
-    setAuthHint("Logged in.");
-    el.passwordInput.value = "";
-    renderAuth();
-    await loadGame();
-  } catch (error) {
-    setAuthHint(error.message);
-  }
-}
-
-async function register() {
-  const username = el.usernameInput.value.trim();
-  const password = el.passwordInput.value;
-
-  if (!username || !password) {
-    setAuthHint("Enter username and password.");
-    return;
-  }
-
-  try {
-    const response = await api("/auth/register", {
-      method: "POST",
-      body: { username, password },
-      allow401: true
-    });
-
-    setSession(response.token, response.user);
-    setAuthHint("Account created.");
-    el.passwordInput.value = "";
-    renderAuth();
-    await loadGame();
-  } catch (error) {
-    setAuthHint(error.message);
-  }
 }
 
 async function logout() {
@@ -456,17 +386,11 @@ async function logout() {
   state = null;
   draftData = null;
   closeAdmin();
-  renderAuth();
-  renderLoggedOut();
-  setAuthHint("Logged out.");
+  redirectToLogin("Logged out.");
 }
 
 function renderAuth() {
-  const loggedIn = Boolean(auth.user);
-  el.authForm.classList.toggle("hidden", loggedIn);
-  el.userBar.classList.toggle("hidden", !loggedIn);
-
-  if (loggedIn) {
+  if (auth.user) {
     el.userChip.textContent = `${auth.user.username} (${auth.user.role})`;
   }
 
@@ -486,33 +410,12 @@ async function loadGame() {
     state = normalizeState(progressResponse.state, data);
     renderAll();
   } catch (error) {
-    renderLoggedOut();
-    setAuthHint(error.message);
+    clearSession();
+    redirectToLogin(error.message);
   }
-}
-
-function renderLoggedOut() {
-  el.map.innerHTML = "";
-  el.map.style.background = DEFAULT_DATA.map.backgroundValue;
-  el.map.classList.remove("no-grid");
-  el.mapTitle.textContent = "Login to load map";
-  el.progressText.textContent = "Locked";
-  el.levelTag.textContent = "";
-  el.questionText.textContent = "Create an account or login to start.";
-  el.options.innerHTML = "";
-  el.feedback.textContent = "";
-  el.feedback.className = "feedback";
-  el.questionActions.classList.add("hidden");
-
-  renderHearts(DEFAULT_DATA.settings.maxHearts, 0);
 }
 
 function renderAll() {
-  if (!data || !state) {
-    renderLoggedOut();
-    return;
-  }
-
   renderHearts(data.settings.maxHearts, state.hearts);
   renderMap();
   renderQuestion();
@@ -1224,8 +1127,7 @@ async function api(path, options = {}) {
   if (!response.ok) {
     if (response.status === 401 && !options.allow401) {
       clearSession();
-      renderAuth();
-      renderLoggedOut();
+      redirectToLogin("Please log in to continue.");
     }
 
     const message = payload.error || `Request failed (${response.status})`;
@@ -1443,4 +1345,11 @@ function registerServiceWorker() {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("/service-worker.js").catch(() => {});
   });
+}
+
+function redirectToLogin(message) {
+  if (message) {
+    sessionStorage.setItem(FLASH_KEY, message);
+  }
+  window.location.replace("/index.html");
 }

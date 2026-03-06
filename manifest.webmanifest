@@ -1,7 +1,7 @@
 {
   "name": "Map Quest Hearts",
   "short_name": "MapQuest",
-  "start_url": "/",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#f8f3ea",
   "theme_color": "#ef7f3b",

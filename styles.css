@@ -30,6 +30,11 @@ body {
   min-height: 100vh;
 }
 
+body.login-body {
+  display: flex;
+  align-items: stretch;
+}
+
 body::before {
   content: "";
   position: fixed;
@@ -45,6 +50,91 @@ body::before {
   max-width: 1200px;
   margin: 0 auto;
   padding: 32px 24px 48px;
+}
+
+.auth-screen {
+  width: min(1120px, 100%);
+  margin: auto;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 420px);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.auth-showcase {
+  padding: 28px;
+  border-radius: 28px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.38));
+  border: 1px solid rgba(26, 27, 31, 0.08);
+  box-shadow: var(--shadow);
+  display: grid;
+  align-content: space-between;
+  gap: 24px;
+  backdrop-filter: blur(14px);
+}
+
+.showcase-copy h2 {
+  margin: 0;
+  font-family: "Fraunces", serif;
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 0.95;
+}
+
+.showcase-text {
+  max-width: 42ch;
+  margin: 18px 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-muted);
+}
+
+.showcase-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.showcase-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0 0 0 1px rgba(26, 27, 31, 0.08);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.auth-card {
+  display: grid;
+  align-content: center;
+  gap: 18px;
+  min-height: 520px;
+}
+
+.auth-copy {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.auth-stack {
+  display: grid;
+  gap: 14px;
+}
+
+.auth-stack label {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.auth-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 .topbar {
@@ -165,6 +255,7 @@ body::before {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .user-chip {
@@ -698,6 +789,11 @@ textarea {
   background: rgba(26, 27, 31, 0.02);
 }
 
+.game-status {
+  margin: -8px 0 18px;
+  min-height: 18px;
+}
+
 @keyframes float {
   0%,
   100% {
@@ -709,6 +805,15 @@ textarea {
 }
 
 @media (max-width: 900px) {
+  .auth-screen {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .auth-card {
+    min-height: 0;
+  }
+
   .topbar {
     flex-direction: column;
     align-items: flex-start;
@@ -746,6 +851,34 @@ textarea {
 }
 
 @media (max-width: 640px) {
+  body.login-body {
+    display: block;
+  }
+
+  .auth-screen {
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .auth-showcase {
+    padding: 20px;
+    border-radius: 20px;
+    gap: 18px;
+  }
+
+  .showcase-copy h2 {
+    font-size: 34px;
+  }
+
+  .auth-card {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .auth-actions {
+    grid-template-columns: 1fr;
+  }
+
   .app {
     padding: 18px 14px calc(108px + env(safe-area-inset-bottom));
   }
@@ -762,6 +895,15 @@ textarea {
   .hearts {
     width: 100%;
     justify-content: center;
+  }
+
+  .game-meta {
+    width: 100%;
+  }
+
+  .game-meta .user-bar {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .auth-form {

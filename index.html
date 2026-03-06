@@ -19,9 +19,9 @@
       rel="stylesheet"
     />
   </head>
-  <body>
-    <div id="app" class="app">
-      <header class="topbar">
+  <body class="login-body">
+    <main class="auth-screen">
+      <section class="auth-showcase">
         <div class="brand">
           <span class="brand-mark"></span>
           <div>
@@ -30,108 +30,58 @@
           </div>
         </div>
 
-        <div class="top-right">
-          <div class="hearts" id="hearts"></div>
-          <div class="auth-panel">
-            <form id="authForm" class="auth-form">
-              <input class="input" id="usernameInput" type="text" placeholder="username" />
-              <input class="input" id="passwordInput" type="password" placeholder="password" />
-              <button class="btn ghost" id="loginBtn" type="submit">Login</button>
-              <button class="btn" id="registerBtn" type="button">Register</button>
-            </form>
-            <div class="user-bar hidden" id="userBar">
-              <span class="user-chip" id="userChip"></span>
-              <button class="btn ghost" id="logoutBtn" type="button">Logout</button>
-            </div>
-            <p class="hint" id="authHint">Default admin: admin / admin123</p>
-          </div>
-
-          <div class="top-actions">
-            <button class="btn ghost" id="resetBtn" type="button">Reset Run</button>
-            <button class="btn" id="adminBtn" type="button">Admin Studio</button>
-          </div>
+        <div class="showcase-copy">
+          <p class="eyebrow">Start Here</p>
+          <h2>Login on one page. Play the full game on the next.</h2>
+          <p class="showcase-text">
+            Move across the map, answer each level correctly to earn hearts, and use
+            the admin studio to redesign maps, characters, and question sets.
+          </p>
         </div>
-      </header>
 
-      <main class="layout">
-        <section class="panel map-panel">
-          <div class="panel-head">
-            <div>
-              <p class="eyebrow">Base Map</p>
-              <h2 id="mapTitle">Login to load map</h2>
-            </div>
-            <div class="progress" id="progressText">Locked</div>
-          </div>
-          <div class="map-frame">
-            <div id="map" class="map"></div>
-          </div>
-          <div class="map-legend">
-            <div class="legend-item"><span class="legend-dot current"></span>Current</div>
-            <div class="legend-item"><span class="legend-dot completed"></span>Completed</div>
-            <div class="legend-item"><span class="legend-dot locked"></span>Locked</div>
-          </div>
-        </section>
-
-        <section class="panel question-panel">
-          <div class="question-card" id="questionCard">
-            <div class="level-tag" id="levelTag"></div>
-            <h3 id="questionText">Create an account or login to start.</h3>
-            <div class="options" id="options"></div>
-            <div class="feedback" id="feedback"></div>
-            <div class="actions" id="questionActions">
-              <button class="btn ghost" id="retryBtn" type="button">Try Again</button>
-              <button class="btn" id="nextBtn" type="button">Next Level</button>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <div class="modal hidden" id="adminModal" aria-hidden="true">
-        <div class="modal-card">
-          <header class="modal-head">
-            <div>
-              <p class="eyebrow">Admin Studio</p>
-              <h2>Design the world</h2>
-            </div>
-            <button class="btn ghost" id="adminClose" type="button">Close</button>
-          </header>
-
-          <div class="admin-body" id="adminBody">
-            <nav class="admin-tabs" id="adminTabs">
-              <button class="tab is-active" data-tab="map" type="button">Map</button>
-              <button class="tab" data-tab="characters" type="button">Characters</button>
-              <button class="tab" data-tab="levels" type="button">Levels</button>
-              <button class="tab" data-tab="settings" type="button">Settings</button>
-              <button class="tab" data-tab="analytics" type="button">Analytics</button>
-            </nav>
-
-            <div class="admin-content">
-              <section class="admin-section" id="adminMap"></section>
-              <section class="admin-section hidden" id="adminCharacters"></section>
-              <section class="admin-section hidden" id="adminLevels"></section>
-              <section class="admin-section hidden" id="adminSettings"></section>
-              <section class="admin-section hidden" id="adminAnalytics"></section>
-            </div>
-          </div>
-
-          <footer class="modal-footer">
-            <div class="footer-actions">
-              <button class="btn ghost" id="resetDefaults" type="button">Reset Defaults</button>
-              <button class="btn ghost" id="exportBtn" type="button">Export JSON</button>
-              <label class="btn ghost file-btn">
-                Import JSON
-                <input id="importInput" type="file" accept="application/json" />
-              </label>
-            </div>
-            <div class="footer-actions">
-              <span class="hint" id="saveHint"></span>
-              <button class="btn" id="saveBtn" type="button">Save Changes</button>
-            </div>
-          </footer>
+        <div class="showcase-pills">
+          <span class="showcase-pill">3 hearts to start</span>
+          <span class="showcase-pill">5 hearts max</span>
+          <span class="showcase-pill">Map + character editor</span>
         </div>
-      </div>
-    </div>
+      </section>
 
-    <script src="app.js" defer></script>
+      <section class="auth-card panel">
+        <div>
+          <p class="eyebrow">Account</p>
+          <h2>Sign in to play</h2>
+          <p class="hint auth-copy">
+            The game opens on a separate page after login. Default admin:
+            <strong>admin / admin123</strong>
+          </p>
+        </div>
+
+        <form id="authForm" class="auth-stack">
+          <label>
+            Username
+            <input class="input" id="usernameInput" type="text" placeholder="username" autocomplete="username" />
+          </label>
+          <label>
+            Password
+            <input
+              class="input"
+              id="passwordInput"
+              type="password"
+              placeholder="password"
+              autocomplete="current-password"
+            />
+          </label>
+
+          <div class="auth-actions">
+            <button class="btn ghost" id="loginBtn" type="submit">Login</button>
+            <button class="btn" id="registerBtn" type="button">Create account</button>
+          </div>
+        </form>
+
+        <p class="hint" id="authHint">Use your account to continue to the game page.</p>
+      </section>
+    </main>
+
+    <script src="login.js" defer></script>
   </body>
 </html>

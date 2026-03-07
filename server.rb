@@ -30,17 +30,17 @@ DEFAULT_GAME_DATA = {
   "map" => {
     "title" => "Our Special Anniversary Journey",
     "backgroundType" => "gradient",
-    "backgroundValue" => "linear-gradient(135deg, #f7d5c6, #f8ecd3 40%, #d8ede4 100%)",
+    "backgroundValue" => "radial-gradient(circle at 18% 20%, rgba(255,255,255,0.48), transparent 18%), linear-gradient(160deg, #f6c7d4 0%, #f4dfbf 38%, #d4eadf 70%, #a8cdcb 100%)",
     "imageUrl" => "",
-    "showGrid" => true,
+    "showGrid" => false,
     "nodes" => [
-      { "id" => "node-1", "levelId" => 1, "label" => "THL", "x" => 10, "y" => 78 },
-      { "id" => "node-2", "levelId" => 2, "label" => "BKK", "x" => 28, "y" => 60 },
-      { "id" => "node-3", "levelId" => 3, "label" => "KYA", "x" => 46, "y" => 72 },
-      { "id" => "node-4", "levelId" => 4, "label" => "RYG", "x" => 68, "y" => 54 },
-      { "id" => "node-5", "levelId" => 5, "label" => "KLW", "x" => 84, "y" => 34 },
-      { "id" => "node-6", "levelId" => 6, "label" => "YGN", "x" => 56, "y" => 18 },
-      { "id" => "node-7", "levelId" => 7, "label" => "NPT", "x" => 28, "y" => 26 }
+      { "id" => "node-1", "levelId" => 1, "label" => "THL", "x" => 12, "y" => 80 },
+      { "id" => "node-2", "levelId" => 2, "label" => "BKK", "x" => 24, "y" => 57 },
+      { "id" => "node-3", "levelId" => 3, "label" => "KYA", "x" => 46, "y" => 78 },
+      { "id" => "node-4", "levelId" => 4, "label" => "RYG", "x" => 71, "y" => 59 },
+      { "id" => "node-5", "levelId" => 5, "label" => "KLW", "x" => 87, "y" => 34 },
+      { "id" => "node-6", "levelId" => 6, "label" => "YGN", "x" => 61, "y" => 12 },
+      { "id" => "node-7", "levelId" => 7, "label" => "NPT", "x" => 25, "y" => 21 }
     ]
   },
   "characters" => [
@@ -62,8 +62,8 @@ DEFAULT_GAME_DATA = {
       "shape" => "square",
       "color" => "#3fb39e",
       "size" => 40,
-      "x" => 18,
-      "y" => 85,
+      "x" => 90,
+      "y" => 84,
       "imageUrl" => ""
     }
   ],
@@ -316,7 +316,7 @@ def normalize_game_data(raw)
       "backgroundType" => map_source["backgroundType"].to_s == "image" ? "image" : "gradient",
       "backgroundValue" => text_value(map_source["backgroundValue"], DEFAULT_GAME_DATA["map"]["backgroundValue"]),
       "imageUrl" => text_value(map_source["imageUrl"], ""),
-      "showGrid" => map_source.key?("showGrid") ? bool_value(map_source["showGrid"]) : true,
+      "showGrid" => map_source.key?("showGrid") ? bool_value(map_source["showGrid"]) : DEFAULT_GAME_DATA["map"]["showGrid"],
       "nodes" => normalize_nodes(map_source["nodes"], levels)
     },
     "characters" => normalize_characters(raw["characters"]),

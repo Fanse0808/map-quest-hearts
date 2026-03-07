@@ -13,17 +13,18 @@ const DEFAULT_DATA = {
   map: {
     title: "Our Special Anniversary Journey",
     backgroundType: "gradient",
-    backgroundValue: "linear-gradient(135deg, #f7d5c6, #f8ecd3 40%, #d8ede4 100%)",
+    backgroundValue:
+      "radial-gradient(circle at 18% 20%, rgba(255,255,255,0.48), transparent 18%), linear-gradient(160deg, #f6c7d4 0%, #f4dfbf 38%, #d4eadf 70%, #a8cdcb 100%)",
     imageUrl: "",
-    showGrid: true,
+    showGrid: false,
     nodes: [
-      { id: "node-1", levelId: 1, label: "THL", x: 10, y: 78 },
-      { id: "node-2", levelId: 2, label: "BKK", x: 28, y: 60 },
-      { id: "node-3", levelId: 3, label: "KYA", x: 46, y: 72 },
-      { id: "node-4", levelId: 4, label: "RYG", x: 68, y: 54 },
-      { id: "node-5", levelId: 5, label: "KLW", x: 84, y: 34 },
-      { id: "node-6", levelId: 6, label: "YGN", x: 56, y: 18 },
-      { id: "node-7", levelId: 7, label: "NPT", x: 28, y: 26 }
+      { id: "node-1", levelId: 1, label: "THL", x: 12, y: 80 },
+      { id: "node-2", levelId: 2, label: "BKK", x: 24, y: 57 },
+      { id: "node-3", levelId: 3, label: "KYA", x: 46, y: 78 },
+      { id: "node-4", levelId: 4, label: "RYG", x: 71, y: 59 },
+      { id: "node-5", levelId: 5, label: "KLW", x: 87, y: 34 },
+      { id: "node-6", levelId: 6, label: "YGN", x: 61, y: 12 },
+      { id: "node-7", levelId: 7, label: "NPT", x: 25, y: 21 }
     ]
   },
   characters: [
@@ -45,8 +46,8 @@ const DEFAULT_DATA = {
       shape: "square",
       color: "#3fb39e",
       size: 40,
-      x: 18,
-      y: 85,
+      x: 90,
+      y: 84,
       imageUrl: ""
     }
   ],
@@ -515,25 +516,16 @@ function renderMap() {
 
   el.map.classList.toggle("no-grid", !data.map.showGrid);
 
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("viewBox", "0 0 100 100");
-
-  const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
-  polyline.setAttribute(
-    "points",
-    data.map.nodes.map((node) => `${node.x},${node.y}`).join(" ")
-  );
-  polyline.setAttribute("class", "map-path");
-  svg.appendChild(polyline);
+  const svg = buildRouteSvg(data.map.nodes);
   el.map.appendChild(svg);
 
   const firstLevel = data.levels[0];
   const firstNode = data.map.nodes[0];
   if (firstLevel?.arrivalMode && firstNode) {
+    const introPosition = resolveIntroFigurePosition(firstNode);
     const introObject = buildTravelObject(
       firstLevel.arrivalMode,
-      clamp(firstNode.x - 8, 8, 92),
-      clamp(firstNode.y + 12, 8, 92),
+      introPosition,
       0,
       "intro"
     );
@@ -545,10 +537,10 @@ function renderMap() {
     const label = data.levels[index]?.travelMode;
     if (!nextNode || !label) return;
 
+    const travelPosition = resolveTravelFigurePosition(node, nextNode, index);
     const travelObject = buildTravelObject(
       label,
-      clamp((node.x + nextNode.x) / 2, 8, 92),
-      clamp((node.y + nextNode.y) / 2 + (index % 2 === 0 ? -6 : 6), 8, 92),
+      travelPosition,
       index + 1
     );
     el.map.appendChild(travelObject);
@@ -558,7 +550,10 @@ function renderMap() {
     const resolvedIndex = resolveLevelIndex(node.levelId, index);
     const level = data.levels[resolvedIndex];
     if (!level) return;
-    el.map.appendChild(buildStopObject(level, node, resolvedIndex));
+
+    const stopPosition = resolveStopFigurePosition(node, resolvedIndex);
+    appendMapLink(svg, node, stopPosition);
+    el.map.appendChild(buildStopObject(level, stopPosition, resolvedIndex));
   });
 
   data.map.nodes.forEach((node, index) => {
@@ -578,9 +573,10 @@ function renderMap() {
     if (isLocked) nodeEl.classList.add("locked");
     nodeEl.style.left = `${node.x}%`;
     nodeEl.style.top = `${node.y}%`;
+    nodeEl.title = level?.title || `Level ${resolvedIndex + 1}`;
 
     const label = document.createElement("span");
-    label.textContent = node.label;
+    label.textContent = String(resolvedIndex + 1);
     nodeEl.appendChild(label);
 
     nodeEl.addEventListener("click", async () => {
@@ -595,24 +591,105 @@ function renderMap() {
   renderCharacters();
 }
 
+function buildRouteSvg(nodes) {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 100 100");
+
+  const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+  const gradient = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+  gradient.setAttribute("id", "routeGradient");
+  gradient.setAttribute("x1", "0%");
+  gradient.setAttribute("y1", "100%");
+  gradient.setAttribute("x2", "100%");
+  gradient.setAttribute("y2", "0%");
+
+  const start = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+  start.setAttribute("offset", "0%");
+  start.setAttribute("stop-color", "#f39aa7");
+
+  const mid = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+  mid.setAttribute("offset", "52%");
+  mid.setAttribute("stop-color", "#f0b65c");
+
+  const end = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+  end.setAttribute("offset", "100%");
+  end.setAttribute("stop-color", "#58b0a6");
+
+  gradient.append(start, mid, end);
+  defs.appendChild(gradient);
+  svg.appendChild(defs);
+
+  const routePath = buildRoutePath(nodes);
+
+  const glow = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  glow.setAttribute("d", routePath);
+  glow.setAttribute("class", "map-path-glow");
+  glow.setAttribute("stroke", "url(#routeGradient)");
+
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", routePath);
+  path.setAttribute("class", "map-path");
+  path.setAttribute("stroke", "url(#routeGradient)");
+
+  const links = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  links.setAttribute("data-layer", "links");
+
+  svg.append(glow, path, links);
+  return svg;
+}
+
+function buildRoutePath(nodes) {
+  if (!nodes.length) return "";
+  if (nodes.length === 1) return `M ${nodes[0].x} ${nodes[0].y}`;
+  if (nodes.length === 2) return `M ${nodes[0].x} ${nodes[0].y} L ${nodes[1].x} ${nodes[1].y}`;
+
+  let path = `M ${nodes[0].x} ${nodes[0].y}`;
+
+  for (let i = 0; i < nodes.length - 1; i += 1) {
+    const p0 = nodes[i - 1] || nodes[i];
+    const p1 = nodes[i];
+    const p2 = nodes[i + 1];
+    const p3 = nodes[i + 2] || p2;
+
+    const cp1x = (p1.x + (p2.x - p0.x) / 6).toFixed(2);
+    const cp1y = (p1.y + (p2.y - p0.y) / 6).toFixed(2);
+    const cp2x = (p2.x - (p3.x - p1.x) / 6).toFixed(2);
+    const cp2y = (p2.y - (p3.y - p1.y) / 6).toFixed(2);
+
+    path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
+  }
+  return path;
+}
+
+function appendMapLink(svg, from, to) {
+  const layer = svg.querySelector("[data-layer='links']");
+  if (!layer) return;
+
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  line.setAttribute("class", "map-link");
+  line.setAttribute("x1", from.x);
+  line.setAttribute("y1", from.y);
+  line.setAttribute("x2", to.x);
+  line.setAttribute("y2", to.y);
+  layer.appendChild(line);
+}
+
 function renderCharacters() {
   const nodes = data.map.nodes;
   const currentLevelId = data.levels[state.currentLevelIndex]?.id;
+  const currentIndex = Math.max(0, state.currentLevelIndex);
   const currentNode =
     nodes.find((node) => Number(node.levelId) === Number(currentLevelId)) ||
-    nodes[state.currentLevelIndex] ||
+    nodes[currentIndex] ||
     nodes[0];
+  const previousNode = nodes[Math.max(currentIndex - 1, 0)] || currentNode;
 
   const playerCharacters = data.characters.filter((character) => character.role === "player");
   const npcCharacters = data.characters.filter((character) => character.role !== "player");
 
   playerCharacters.forEach((character, index) => {
-    const offset = index * 2;
     const position = currentNode
-      ? {
-          x: clamp(currentNode.x + offset, 2, 98),
-          y: clamp(currentNode.y - offset, 5, 95)
-        }
+      ? resolvePlayerCharacterPosition(currentNode, previousNode, index)
       : { x: character.x, y: character.y };
 
     el.map.appendChild(buildCharacter(character, position));
@@ -625,7 +702,7 @@ function renderCharacters() {
 
 function buildCharacter(character, position) {
   const wrapper = document.createElement("div");
-  wrapper.className = `character ${character.shape}`;
+  wrapper.className = `character ${character.shape} character--${character.role}`;
   wrapper.style.left = `${position.x}%`;
   wrapper.style.top = `${position.y}%`;
   wrapper.style.width = `${character.size}px`;
@@ -668,21 +745,105 @@ function compactTravelLabel(label) {
   const lower = text.toLowerCase();
 
   if (lower.includes("leapmotor")) return "Pink EV";
-  if (lower.includes("nissan")) return "Nissan Kicks";
-  if (lower.includes("toyota")) return "Toyota bZ4X";
+  if (lower.includes("nissan")) return "Kicks";
+  if (lower.includes("toyota")) return "Toyota EV";
   if (lower.includes("plane")) return "Plane";
   if (lower.includes("train")) return "Train";
   return text;
 }
 
-function buildTravelObject(label, x, y, index = 0, variant = "") {
+function resolvePlayerCharacterPosition(currentNode, previousNode, index) {
+  const incoming = normalizeVector(
+    (currentNode?.x ?? 50) - (previousNode?.x ?? currentNode?.x ?? 50),
+    (currentNode?.y ?? 50) - (previousNode?.y ?? currentNode?.y ?? 50)
+  );
+  const drift = index * 2;
+
+  return {
+    x: clamp((currentNode?.x ?? 50) - incoming.x * (4 + drift), 4, 96),
+    y: clamp((currentNode?.y ?? 50) - incoming.y * (4 + drift) - 1.6, 6, 94)
+  };
+}
+
+function resolveIntroFigurePosition(node) {
+  const direction = normalizeVector(-1, 1);
+  return {
+    x: clamp(node.x + direction.x * 11, 8, 92),
+    y: clamp(node.y + direction.y * 10, 8, 92)
+  };
+}
+
+function resolveStopFigurePosition(node, index) {
+  const directionSeed = getOutwardVector(node, index);
+  const direction = normalizeVector(directionSeed.x, directionSeed.y);
+  const distance = 14;
+
+  return {
+    x: clamp(node.x + direction.x * distance, 8, 92),
+    y: clamp(node.y + direction.y * distance, 8, 92)
+  };
+}
+
+function resolveTravelFigurePosition(node, nextNode, index) {
+  const midX = (node.x + nextNode.x) / 2;
+  const midY = (node.y + nextNode.y) / 2;
+  const segment = normalizeVector(nextNode.x - node.x, nextNode.y - node.y);
+  let normal = { x: -segment.y, y: segment.x };
+  const fromCenter = { x: midX - 50, y: midY - 50 };
+
+  if (normal.x * fromCenter.x + normal.y * fromCenter.y < 0) {
+    normal = { x: -normal.x, y: -normal.y };
+  }
+
+  const distance = index % 2 === 0 ? 8.5 : 7.2;
+  return {
+    x: clamp(midX + normal.x * distance, 8, 92),
+    y: clamp(midY + normal.y * distance, 8, 92)
+  };
+}
+
+function getOutwardVector(point, index) {
+  const fallback = [
+    { x: -0.9, y: 0.45 },
+    { x: -0.65, y: -0.55 },
+    { x: 0.85, y: 0.35 },
+    { x: 0.7, y: -0.65 }
+  ][index % 4];
+
+  const vector = {
+    x: point.x <= 28 ? -1 : point.x >= 72 ? 1 : 0,
+    y: point.y <= 28 ? -1 : point.y >= 72 ? 1 : 0
+  };
+
+  if (vector.x === 0 && vector.y === 0) {
+    return fallback;
+  }
+
+  if (vector.x === 0) {
+    return { x: fallback.x * 0.6, y: vector.y };
+  }
+
+  if (vector.y === 0) {
+    return { x: vector.x, y: fallback.y * 0.6 };
+  }
+
+  return vector;
+}
+
+function normalizeVector(x, y) {
+  const length = Math.hypot(x, y) || 1;
+  return { x: x / length, y: y / length };
+}
+
+function buildTravelObject(label, position, index = 0, variant = "") {
   const tone = routeTone(label);
   const figure = document.createElement("div");
   figure.className = `map-figure map-figure--travel map-figure--${tone}`;
   if (variant) figure.classList.add(`map-figure--${variant}`);
-  figure.style.left = `${x}%`;
-  figure.style.top = `${y}%`;
+  figure.style.left = `${position.x}%`;
+  figure.style.top = `${position.y}%`;
   figure.style.animationDelay = `${index * 0.4}s`;
+  figure.title = label;
 
   const icon = document.createElement("span");
   icon.className = "map-figure__icon";
@@ -697,16 +858,18 @@ function buildTravelObject(label, x, y, index = 0, variant = "") {
   return figure;
 }
 
-function buildStopObject(level, node, index) {
+function buildStopObject(level, position, index) {
   const tone = stopTone(level.title);
   const figure = document.createElement("div");
-  figure.className = `map-figure map-figure--stop map-figure--${tone} map-figure--offset-${index % 4}`;
-  if (index === state.currentLevelIndex && !state.finished) {
-    figure.classList.add("is-current");
-  }
-  figure.style.left = `${node.x}%`;
-  figure.style.top = `${node.y}%`;
+  figure.className = `map-figure map-figure--stop map-figure--${tone}`;
+  const isCurrent = index === state.currentLevelIndex && !state.finished;
+  const isCompleted = Boolean(state.completed[String(level.id)]);
+  if (isCurrent) figure.classList.add("is-current");
+  if (isCompleted) figure.classList.add("is-completed");
+  figure.style.left = `${position.x}%`;
+  figure.style.top = `${position.y}%`;
   figure.style.animationDelay = `${index * 0.35}s`;
+  figure.title = level.title;
 
   const icon = document.createElement("span");
   icon.className = "map-figure__icon";

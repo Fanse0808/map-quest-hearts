@@ -5,21 +5,25 @@ const FLASH_KEY = "mapquest.flash.v1";
 const DEFAULT_DATA = {
   settings: {
     startHearts: 3,
-    maxHearts: 5
+    maxHearts: 5,
+    endingTitle: "Congratulations, My Love",
+    endingLetter:
+      "You made it all the way to the end of our special anniversary journey.\n\nEvery stop on this map holds a memory, but the best part of every trip is still getting to share it with you.\n\nThank you for the laughter, the softness, the patience, and the love that made this story ours.\n\nHappy Anniversary.\n\nWith all my love,"
   },
   map: {
-    title: "Grove of Questions",
+    title: "Our Special Anniversary Journey",
     backgroundType: "gradient",
-    backgroundValue: "linear-gradient(135deg, #a8d8c3, #f0e4d0)",
+    backgroundValue: "linear-gradient(135deg, #f7d5c6, #f8ecd3 40%, #d8ede4 100%)",
     imageUrl: "",
     showGrid: true,
     nodes: [
-      { id: "node-1", levelId: 1, label: "1", x: 10, y: 82 },
-      { id: "node-2", levelId: 2, label: "2", x: 26, y: 60 },
-      { id: "node-3", levelId: 3, label: "3", x: 45, y: 72 },
-      { id: "node-4", levelId: 4, label: "4", x: 60, y: 44 },
-      { id: "node-5", levelId: 5, label: "5", x: 76, y: 62 },
-      { id: "node-6", levelId: 6, label: "6", x: 90, y: 30 }
+      { id: "node-1", levelId: 1, label: "THL", x: 10, y: 78 },
+      { id: "node-2", levelId: 2, label: "BKK", x: 28, y: 60 },
+      { id: "node-3", levelId: 3, label: "KYA", x: 46, y: 72 },
+      { id: "node-4", levelId: 4, label: "RYG", x: 68, y: 54 },
+      { id: "node-5", levelId: 5, label: "KLW", x: 84, y: 34 },
+      { id: "node-6", levelId: 6, label: "YGN", x: 56, y: 18 },
+      { id: "node-7", levelId: 7, label: "NPT", x: 28, y: 26 }
     ]
   },
   characters: [
@@ -31,7 +35,7 @@ const DEFAULT_DATA = {
       color: "#ef7f3b",
       size: 48,
       x: 14,
-      y: 82,
+      y: 79,
       imageUrl: ""
     },
     {
@@ -42,58 +46,80 @@ const DEFAULT_DATA = {
       color: "#3fb39e",
       size: 40,
       x: 18,
-      y: 88,
+      y: 85,
       imageUrl: ""
     }
   ],
   levels: [
     {
       id: 1,
-      title: "Sky Guess",
-      question: "What color is the sky on a clear day?",
-      options: ["Blue", "Green", "Red", "Yellow"],
+      title: "Thanlyin - Japanese Hotel",
+      question: "Which ride begins the anniversary journey before the first stay in Thanlyin?",
+      options: ["Pink Leapmotor T03", "Plane", "Nissan Kicks", "Train"],
       answerIndex: 0,
-      explanation: "Most clear daytime skies appear blue."
+      explanation: "The journey opens with a small pink Leapmotor T03 to the Japanese hotel in Thanlyin.",
+      arrivalMode: "Pink Leapmotor T03 into Thanlyin",
+      travelMode: "Plane to Bangkok"
     },
     {
       id: 2,
-      title: "Quick Math",
-      question: "2 + 2 equals what?",
-      options: ["3", "4", "5", "6"],
-      answerIndex: 1,
-      explanation: "Two plus two is four."
+      title: "Bangkok - City Hotel",
+      question: "How do you travel from Thanlyin to the Bangkok city hotel?",
+      options: ["Plane", "Train", "Boat", "Black Toyota bZ4X"],
+      answerIndex: 0,
+      explanation: "After Thanlyin, the route flies to Bangkok by plane.",
+      arrivalMode: "Arrive by plane",
+      travelMode: "Nissan Kicks to Khao Yai"
     },
     {
       id: 3,
-      title: "Living Things",
-      question: "Which is a mammal?",
-      options: ["Dolphin", "Shark", "Trout", "Octopus"],
+      title: "Khao Yai - Castle",
+      question: "Which vehicle carries the journey from Bangkok into Khao Yai?",
+      options: ["Nissan Kicks", "Plane", "Train", "Pink Leapmotor T03"],
       answerIndex: 0,
-      explanation: "Dolphins breathe air and nurse their young."
+      explanation: "The Bangkok-to-Khao-Yai leg uses a Nissan Kicks.",
+      arrivalMode: "Arrive by Nissan Kicks",
+      travelMode: "Nissan Kicks to Rayong"
     },
     {
       id: 4,
-      title: "World Map",
-      question: "Which continent is the Sahara Desert on?",
-      options: ["Asia", "Africa", "Europe", "South America"],
-      answerIndex: 1,
-      explanation: "The Sahara is in northern Africa."
+      title: "Rayong - Beach Resort",
+      question: "How do you continue from Khao Yai to the Rayong beach resort?",
+      options: ["Nissan Kicks", "Plane", "Train", "Black Toyota bZ4X"],
+      answerIndex: 0,
+      explanation: "The next leg continues in the Nissan Kicks down to Rayong.",
+      arrivalMode: "Arrive by Nissan Kicks",
+      travelMode: "Black Toyota bZ4X to Kalaw"
     },
     {
       id: 5,
-      title: "Word Match",
-      question: "Which word is a synonym for fast?",
-      options: ["Quick", "Slow", "Late", "Still"],
+      title: "Kalaw - Small Townhouse",
+      question: "Which car brings the journey from Rayong to Kalaw?",
+      options: ["Black Toyota bZ4X", "Pink Leapmotor T03", "Plane", "Train"],
       answerIndex: 0,
-      explanation: "Quick means fast."
+      explanation: "A black Toyota bZ4X is used to reach Kalaw.",
+      arrivalMode: "Arrive by black Toyota bZ4X",
+      travelMode: "Train to Yangon"
     },
     {
       id: 6,
-      title: "Ocean Facts",
-      question: "What is the largest ocean on Earth?",
-      options: ["Atlantic", "Arctic", "Indian", "Pacific"],
-      answerIndex: 3,
-      explanation: "The Pacific is the largest ocean."
+      title: "Yangon - Golden Pagoda",
+      question: "Which transport takes the route into Yangon city and its golden pagoda?",
+      options: ["Train", "Plane", "Nissan Kicks", "Boat"],
+      answerIndex: 0,
+      explanation: "The journey continues by train into Yangon and the golden pagoda stop.",
+      arrivalMode: "Arrive by train",
+      travelMode: "Same train to Naypyidaw"
+    },
+    {
+      id: 7,
+      title: "Naypyidaw - Government Building",
+      question: "How do you continue from Yangon to the final Naypyidaw city stop?",
+      options: ["Same train", "Plane", "Black Toyota bZ4X", "Pink Leapmotor T03"],
+      answerIndex: 0,
+      explanation: "The same train carries the route onward to Naypyidaw and the government-building finish.",
+      arrivalMode: "Arrive by the same train",
+      travelMode: ""
     }
   ]
 };
@@ -106,12 +132,20 @@ const el = {
   mapTitle: document.getElementById("mapTitle"),
   progressText: document.getElementById("progressText"),
   levelTag: document.getElementById("levelTag"),
+  levelName: document.getElementById("levelName"),
+  journeyMeta: document.getElementById("journeyMeta"),
   questionText: document.getElementById("questionText"),
   options: document.getElementById("options"),
   feedback: document.getElementById("feedback"),
   retryBtn: document.getElementById("retryBtn"),
   nextBtn: document.getElementById("nextBtn"),
+  openLetterBtn: document.getElementById("openLetterBtn"),
   questionActions: document.getElementById("questionActions"),
+  endingModal: document.getElementById("endingModal"),
+  endingClose: document.getElementById("endingClose"),
+  endingDismissBtn: document.getElementById("endingDismissBtn"),
+  endingTitle: document.getElementById("endingTitle"),
+  endingLetter: document.getElementById("endingLetter"),
   adminModal: document.getElementById("adminModal"),
   adminClose: document.getElementById("adminClose"),
   adminTabs: document.getElementById("adminTabs"),
@@ -142,6 +176,7 @@ let draftData = null;
 let analyticsSummary = null;
 let adminTab = "map";
 let actionLock = false;
+let completionShown = false;
 
 init();
 
@@ -172,12 +207,43 @@ function bindEvents() {
     await advanceLevel();
   });
 
+  el.openLetterBtn.addEventListener("click", () => {
+    openEndingModal();
+  });
+
   el.adminBtn.addEventListener("click", async () => {
     await openAdmin();
   });
 
   el.adminClose.addEventListener("click", () => {
     closeAdmin();
+  });
+
+  el.endingClose.addEventListener("click", () => {
+    closeEndingModal();
+  });
+
+  el.endingDismissBtn.addEventListener("click", () => {
+    closeEndingModal();
+  });
+
+  el.endingModal.addEventListener("click", (event) => {
+    if (event.target === el.endingModal) {
+      closeEndingModal();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+
+    if (!el.endingModal.classList.contains("hidden")) {
+      closeEndingModal();
+      return;
+    }
+
+    if (!el.adminModal.classList.contains("hidden")) {
+      closeAdmin();
+    }
   });
 
   el.adminTabs.addEventListener("click", async (event) => {
@@ -304,6 +370,8 @@ function bindEvents() {
       draftData.levels.push({
         id: nextId,
         title: `Level ${nextId}`,
+        arrivalMode: "",
+        travelMode: "",
         question: "New question",
         options: ["Option A", "Option B"],
         answerIndex: 0,
@@ -385,6 +453,8 @@ async function logout() {
   data = null;
   state = null;
   draftData = null;
+  completionShown = false;
+  closeEndingModal();
   closeAdmin();
   redirectToLogin("Logged out.");
 }
@@ -420,6 +490,7 @@ function renderAll() {
   renderMap();
   renderQuestion();
   renderProgress();
+  syncEndingExperience();
 }
 
 function renderHearts(maxHearts, filledHearts) {
@@ -454,6 +525,31 @@ function renderMap() {
   polyline.setAttribute("class", "map-path");
   svg.appendChild(polyline);
   el.map.appendChild(svg);
+
+  const firstLevel = data.levels[0];
+  const firstNode = data.map.nodes[0];
+  if (firstLevel?.arrivalMode && firstNode) {
+    const introBadge = buildRouteBadge(
+      firstLevel.arrivalMode,
+      clamp(firstNode.x + 10, 8, 92),
+      clamp(firstNode.y + 11, 8, 92),
+      "start"
+    );
+    el.map.appendChild(introBadge);
+  }
+
+  data.map.nodes.slice(0, -1).forEach((node, index) => {
+    const nextNode = data.map.nodes[index + 1];
+    const label = data.levels[index]?.travelMode;
+    if (!nextNode || !label) return;
+
+    const badge = buildRouteBadge(
+      label,
+      clamp((node.x + nextNode.x) / 2, 8, 92),
+      clamp((node.y + nextNode.y) / 2 + (index % 2 === 0 ? -6 : 6), 8, 92)
+    );
+    el.map.appendChild(badge);
+  });
 
   data.map.nodes.forEach((node, index) => {
     const resolvedIndex = resolveLevelIndex(node.levelId, index);
@@ -536,23 +632,61 @@ function buildCharacter(character, position) {
   return wrapper;
 }
 
+function routeTone(label) {
+  const text = String(label || "").toLowerCase();
+  if (text.includes("plane")) return "plane";
+  if (text.includes("train")) return "train";
+  if (text.includes("toyota") || text.includes("nissan") || text.includes("leapmotor")) return "car";
+  return "default";
+}
+
+function buildRouteBadge(label, x, y, variant = "") {
+  const badge = document.createElement("div");
+  badge.className = `route-badge ${routeTone(label)}`.trim();
+  if (variant) badge.classList.add(`route-badge--${variant}`);
+  badge.style.left = `${x}%`;
+  badge.style.top = `${y}%`;
+  badge.textContent = label;
+  badge.title = label;
+  return badge;
+}
+
 function renderQuestion() {
   const level = data.levels[state.currentLevelIndex];
 
   el.levelTag.textContent = `Level ${state.currentLevelIndex + 1}`;
+  el.levelName.textContent = level?.title || "";
+  el.journeyMeta.innerHTML = buildJourneyMeta(level);
   el.options.innerHTML = "";
   el.feedback.textContent = "";
   el.feedback.className = "feedback";
+  el.retryBtn.classList.add("hidden");
+  el.nextBtn.classList.add("hidden");
+  el.openLetterBtn.classList.add("hidden");
 
   if (state.hearts <= 0) {
+    el.levelName.textContent = "Journey paused";
+    el.journeyMeta.innerHTML = "";
     el.questionText.textContent = "Out of hearts. Reset run to try again.";
     el.questionActions.classList.add("hidden");
     return;
   }
 
   if (state.finished) {
-    el.questionText.textContent = "Trail complete. You finished every level.";
-    el.questionActions.classList.add("hidden");
+    el.levelTag.textContent = "Journey complete";
+    el.levelName.textContent = data.settings.endingTitle;
+    el.journeyMeta.innerHTML =
+      '<span class="journey-pill journey-pill--finish">Your special letter is ready</span>';
+    el.questionText.textContent =
+      "You reached the final stop. Open the envelope to read your special letter.";
+
+    if (state.feedback) {
+      el.feedback.textContent = state.feedback.text;
+      el.feedback.classList.add(state.feedback.type === "correct" ? "success" : "fail");
+    }
+
+    el.openLetterBtn.classList.remove("hidden");
+    el.questionActions.classList.remove("hidden");
     return;
   }
 
@@ -578,7 +712,27 @@ function renderQuestion() {
 
   el.retryBtn.classList.toggle("hidden", !state.feedback || state.feedback.type !== "fail");
   el.nextBtn.classList.toggle("hidden", !state.readyNext);
+  el.openLetterBtn.classList.add("hidden");
   el.questionActions.classList.toggle("hidden", !state.feedback);
+}
+
+function buildJourneyMeta(level) {
+  if (!level) return "";
+
+  const items = [];
+  if (level.arrivalMode) {
+    items.push(
+      `<span class="journey-pill journey-pill--arrival">${escapeHtml(level.arrivalMode)}</span>`
+    );
+  }
+
+  if (level.travelMode) {
+    items.push(
+      `<span class="journey-pill journey-pill--travel">Next: ${escapeHtml(level.travelMode)}</span>`
+    );
+  }
+
+  return items.join("");
 }
 
 function renderProgress() {
@@ -592,6 +746,47 @@ function renderProgress() {
   } else {
     el.progressText.textContent = `Level ${state.currentLevelIndex + 1} of ${data.levels.length}`;
   }
+}
+
+function syncEndingExperience() {
+  renderEndingLetter();
+
+  if (!state?.finished) {
+    completionShown = false;
+    closeEndingModal();
+    return;
+  }
+
+  if (!completionShown) {
+    openEndingModal();
+    completionShown = true;
+  }
+}
+
+function renderEndingLetter() {
+  if (!data) return;
+
+  el.endingTitle.textContent = data.settings.endingTitle;
+  el.endingLetter.textContent = data.settings.endingLetter;
+}
+
+function openEndingModal() {
+  if (!state?.finished) return;
+
+  renderEndingLetter();
+  el.endingModal.classList.remove("hidden");
+  el.endingModal.setAttribute("aria-hidden", "false");
+  el.endingModal.classList.remove("is-open");
+
+  window.requestAnimationFrame(() => {
+    el.endingModal.classList.add("is-open");
+  });
+}
+
+function closeEndingModal() {
+  el.endingModal.classList.add("hidden");
+  el.endingModal.classList.remove("is-open");
+  el.endingModal.setAttribute("aria-hidden", "true");
 }
 
 async function submitAnswer(answerIndex) {
@@ -878,6 +1073,14 @@ function renderAdminLevels() {
               level.title
             )}" /></label>
           </div>
+          <div class="field-grid">
+            <label>Arrival note<input data-field="arrivalMode" class="input" value="${escapeHtml(
+              level.arrivalMode || ""
+            )}" /></label>
+            <label>Travel to next<input data-field="travelMode" class="input" value="${escapeHtml(
+              level.travelMode || ""
+            )}" /></label>
+          </div>
           <label>Question<textarea data-field="question">${escapeHtml(level.question)}</textarea></label>
           <label>Options (one per line)<textarea data-field="options">${escapeHtml(
             level.options.join("\n")
@@ -903,7 +1106,7 @@ function renderAdminLevels() {
 
 function renderAdminSettings() {
   el.adminSettings.innerHTML = `
-    ${adminLead("Heart rules", "Tune the starting hearts and cap while keeping the game flow simple.")}
+    ${adminLead("Game finish", "Tune the heart rules and write the special letter that appears after the last level.")}
     <div class="field-grid">
       <label>Start hearts<input id="draft-start-hearts" class="input" value="${escapeHtml(
         draftData.settings.startHearts
@@ -911,6 +1114,14 @@ function renderAdminSettings() {
       <label>Max hearts<input id="draft-max-hearts" class="input" value="${escapeHtml(
         draftData.settings.maxHearts
       )}" /></label>
+    </div>
+    <div class="letter-editor">
+      <label>Letter heading<input id="draft-ending-title" class="input" value="${escapeHtml(
+        draftData.settings.endingTitle
+      )}" /></label>
+      <label>Special letter<textarea id="draft-ending-letter">${escapeHtml(
+        draftData.settings.endingLetter
+      )}</textarea></label>
     </div>
     <p class="hint">Hearts are capped at 5 by backend rule.</p>
   `;
@@ -1087,6 +1298,8 @@ function readAdminDraftFromDom() {
     return {
       id: safeNumber(getValue("id"), index + 1),
       title: getValue("title") || `Level ${index + 1}`,
+      arrivalMode: getValue("arrivalMode") || "",
+      travelMode: getValue("travelMode") || "",
       question: getValue("question") || "New question",
       options: options.length ? options : ["Option A", "Option B"],
       answerIndex: clamp(safeNumber(getValue("answerIndex"), 1) - 1, 0, Math.max(options.length - 1, 0)),
@@ -1096,6 +1309,8 @@ function readAdminDraftFromDom() {
 
   const startHearts = document.getElementById("draft-start-hearts");
   const maxHearts = document.getElementById("draft-max-hearts");
+  const endingTitle = document.getElementById("draft-ending-title");
+  const endingLetter = document.getElementById("draft-ending-letter");
 
   if (startHearts) {
     draftData.settings.startHearts = safeNumber(startHearts.value, 3);
@@ -1103,6 +1318,15 @@ function readAdminDraftFromDom() {
 
   if (maxHearts) {
     draftData.settings.maxHearts = safeNumber(maxHearts.value, 5);
+  }
+
+  if (endingTitle) {
+    draftData.settings.endingTitle = endingTitle.value.trim() || DEFAULT_DATA.settings.endingTitle;
+  }
+
+  if (endingLetter) {
+    draftData.settings.endingLetter =
+      endingLetter.value.trim() || DEFAULT_DATA.settings.endingLetter;
   }
 
   draftData.settings.maxHearts = clamp(draftData.settings.maxHearts, 1, 5);
@@ -1174,6 +1398,14 @@ function normalizeData(input) {
     1,
     output.settings.maxHearts
   );
+  output.settings.endingTitle = safeText(
+    output.settings.endingTitle,
+    DEFAULT_DATA.settings.endingTitle
+  );
+  output.settings.endingLetter = safeText(
+    output.settings.endingLetter,
+    DEFAULT_DATA.settings.endingLetter
+  );
 
   output.map.showGrid = Boolean(output.map.showGrid);
   output.map.backgroundType = output.map.backgroundType === "image" ? "image" : "gradient";
@@ -1242,6 +1474,8 @@ function ensureLevelIds(target) {
       0,
       level.options.length - 1
     );
+    level.arrivalMode = level.arrivalMode || "";
+    level.travelMode = level.travelMode || "";
     level.explanation = level.explanation || "";
   });
 }
@@ -1358,6 +1592,11 @@ function safeNumber(value, fallback) {
   if (value === "" || value === null || value === undefined) return fallback;
   const number = Number(value);
   return Number.isFinite(number) ? number : fallback;
+}
+
+function safeText(value, fallback) {
+  const text = String(value ?? "").trim();
+  return text || fallback;
 }
 
 function registerServiceWorker() {

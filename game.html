@@ -69,16 +69,50 @@
         <section class="panel question-panel">
           <div class="question-card" id="questionCard">
             <div class="level-tag" id="levelTag"></div>
+            <p class="journey-title" id="levelName"></p>
+            <div class="journey-meta" id="journeyMeta"></div>
             <h3 id="questionText">Loading your game...</h3>
             <div class="options" id="options"></div>
             <div class="feedback" id="feedback"></div>
             <div class="actions" id="questionActions">
               <button class="btn ghost" id="retryBtn" type="button">Try Again</button>
               <button class="btn" id="nextBtn" type="button">Next Level</button>
+              <button class="btn" id="openLetterBtn" type="button">Open Letter</button>
             </div>
           </div>
         </section>
       </main>
+
+      <div class="modal modal--ending hidden" id="endingModal" aria-hidden="true">
+        <div class="modal-card modal-card--ending">
+          <button class="btn ghost ending-close" id="endingClose" type="button">Close</button>
+          <div class="ending-shell">
+            <div class="ending-copy">
+              <p class="eyebrow">Final Surprise</p>
+              <h2>Congratulations!</h2>
+              <p class="hint">A heart envelope opens with your special anniversary letter.</p>
+            </div>
+
+            <div class="envelope-showcase">
+              <article class="letter-sheet">
+                <p class="letter-kicker" id="endingTitle"></p>
+                <p class="letter-body" id="endingLetter"></p>
+              </article>
+
+              <div class="heart-envelope" aria-hidden="true">
+                <span class="envelope-back"></span>
+                <span class="envelope-front"></span>
+                <span class="envelope-flap"></span>
+                <span class="heart-envelope-seal"></span>
+              </div>
+            </div>
+
+            <div class="ending-actions">
+              <button class="btn" id="endingDismissBtn" type="button">Close Letter</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="modal hidden" id="adminModal" aria-hidden="true">
         <div class="modal-card">

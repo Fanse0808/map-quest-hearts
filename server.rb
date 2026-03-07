@@ -23,21 +23,24 @@ end
 DEFAULT_GAME_DATA = {
   "settings" => {
     "startHearts" => 3,
-    "maxHearts" => 5
+    "maxHearts" => 5,
+    "endingTitle" => "Congratulations, My Love",
+    "endingLetter" => "You made it all the way to the end of our special anniversary journey.\n\nEvery stop on this map holds a memory, but the best part of every trip is still getting to share it with you.\n\nThank you for the laughter, the softness, the patience, and the love that made this story ours.\n\nHappy Anniversary.\n\nWith all my love,"
   },
   "map" => {
-    "title" => "Grove of Questions",
+    "title" => "Our Special Anniversary Journey",
     "backgroundType" => "gradient",
-    "backgroundValue" => "linear-gradient(135deg, #a8d8c3, #f0e4d0)",
+    "backgroundValue" => "linear-gradient(135deg, #f7d5c6, #f8ecd3 40%, #d8ede4 100%)",
     "imageUrl" => "",
     "showGrid" => true,
     "nodes" => [
-      { "id" => "node-1", "levelId" => 1, "label" => "1", "x" => 10, "y" => 82 },
-      { "id" => "node-2", "levelId" => 2, "label" => "2", "x" => 26, "y" => 60 },
-      { "id" => "node-3", "levelId" => 3, "label" => "3", "x" => 45, "y" => 72 },
-      { "id" => "node-4", "levelId" => 4, "label" => "4", "x" => 60, "y" => 44 },
-      { "id" => "node-5", "levelId" => 5, "label" => "5", "x" => 76, "y" => 62 },
-      { "id" => "node-6", "levelId" => 6, "label" => "6", "x" => 90, "y" => 30 }
+      { "id" => "node-1", "levelId" => 1, "label" => "THL", "x" => 10, "y" => 78 },
+      { "id" => "node-2", "levelId" => 2, "label" => "BKK", "x" => 28, "y" => 60 },
+      { "id" => "node-3", "levelId" => 3, "label" => "KYA", "x" => 46, "y" => 72 },
+      { "id" => "node-4", "levelId" => 4, "label" => "RYG", "x" => 68, "y" => 54 },
+      { "id" => "node-5", "levelId" => 5, "label" => "KLW", "x" => 84, "y" => 34 },
+      { "id" => "node-6", "levelId" => 6, "label" => "YGN", "x" => 56, "y" => 18 },
+      { "id" => "node-7", "levelId" => 7, "label" => "NPT", "x" => 28, "y" => 26 }
     ]
   },
   "characters" => [
@@ -49,7 +52,7 @@ DEFAULT_GAME_DATA = {
       "color" => "#ef7f3b",
       "size" => 48,
       "x" => 14,
-      "y" => 82,
+      "y" => 79,
       "imageUrl" => ""
     },
     {
@@ -60,58 +63,80 @@ DEFAULT_GAME_DATA = {
       "color" => "#3fb39e",
       "size" => 40,
       "x" => 18,
-      "y" => 88,
+      "y" => 85,
       "imageUrl" => ""
     }
   ],
   "levels" => [
     {
       "id" => 1,
-      "title" => "Sky Guess",
-      "question" => "What color is the sky on a clear day?",
-      "options" => ["Blue", "Green", "Red", "Yellow"],
+      "title" => "Thanlyin - Japanese Hotel",
+      "question" => "Which ride begins the anniversary journey before the first stay in Thanlyin?",
+      "options" => ["Pink Leapmotor T03", "Plane", "Nissan Kicks", "Train"],
       "answerIndex" => 0,
-      "explanation" => "Most clear daytime skies appear blue."
+      "explanation" => "The journey opens with a small pink Leapmotor T03 to the Japanese hotel in Thanlyin.",
+      "arrivalMode" => "Pink Leapmotor T03 into Thanlyin",
+      "travelMode" => "Plane to Bangkok"
     },
     {
       "id" => 2,
-      "title" => "Quick Math",
-      "question" => "2 + 2 equals what?",
-      "options" => ["3", "4", "5", "6"],
-      "answerIndex" => 1,
-      "explanation" => "Two plus two is four."
+      "title" => "Bangkok - City Hotel",
+      "question" => "How do you travel from Thanlyin to the Bangkok city hotel?",
+      "options" => ["Plane", "Train", "Boat", "Black Toyota bZ4X"],
+      "answerIndex" => 0,
+      "explanation" => "After Thanlyin, the route flies to Bangkok by plane.",
+      "arrivalMode" => "Arrive by plane",
+      "travelMode" => "Nissan Kicks to Khao Yai"
     },
     {
       "id" => 3,
-      "title" => "Living Things",
-      "question" => "Which is a mammal?",
-      "options" => ["Dolphin", "Shark", "Trout", "Octopus"],
+      "title" => "Khao Yai - Castle",
+      "question" => "Which vehicle carries the journey from Bangkok into Khao Yai?",
+      "options" => ["Nissan Kicks", "Plane", "Train", "Pink Leapmotor T03"],
       "answerIndex" => 0,
-      "explanation" => "Dolphins breathe air and nurse their young."
+      "explanation" => "The Bangkok-to-Khao-Yai leg uses a Nissan Kicks.",
+      "arrivalMode" => "Arrive by Nissan Kicks",
+      "travelMode" => "Nissan Kicks to Rayong"
     },
     {
       "id" => 4,
-      "title" => "World Map",
-      "question" => "Which continent is the Sahara Desert on?",
-      "options" => ["Asia", "Africa", "Europe", "South America"],
-      "answerIndex" => 1,
-      "explanation" => "The Sahara is in northern Africa."
+      "title" => "Rayong - Beach Resort",
+      "question" => "How do you continue from Khao Yai to the Rayong beach resort?",
+      "options" => ["Nissan Kicks", "Plane", "Train", "Black Toyota bZ4X"],
+      "answerIndex" => 0,
+      "explanation" => "The next leg continues in the Nissan Kicks down to Rayong.",
+      "arrivalMode" => "Arrive by Nissan Kicks",
+      "travelMode" => "Black Toyota bZ4X to Kalaw"
     },
     {
       "id" => 5,
-      "title" => "Word Match",
-      "question" => "Which word is a synonym for fast?",
-      "options" => ["Quick", "Slow", "Late", "Still"],
+      "title" => "Kalaw - Small Townhouse",
+      "question" => "Which car brings the journey from Rayong to Kalaw?",
+      "options" => ["Black Toyota bZ4X", "Pink Leapmotor T03", "Plane", "Train"],
       "answerIndex" => 0,
-      "explanation" => "Quick means fast."
+      "explanation" => "A black Toyota bZ4X is used to reach Kalaw.",
+      "arrivalMode" => "Arrive by black Toyota bZ4X",
+      "travelMode" => "Train to Yangon"
     },
     {
       "id" => 6,
-      "title" => "Ocean Facts",
-      "question" => "What is the largest ocean on Earth?",
-      "options" => ["Atlantic", "Arctic", "Indian", "Pacific"],
-      "answerIndex" => 3,
-      "explanation" => "The Pacific is the largest ocean."
+      "title" => "Yangon - Golden Pagoda",
+      "question" => "Which transport takes the route into Yangon city and its golden pagoda?",
+      "options" => ["Train", "Plane", "Nissan Kicks", "Boat"],
+      "answerIndex" => 0,
+      "explanation" => "The journey continues by train into Yangon and the golden pagoda stop.",
+      "arrivalMode" => "Arrive by train",
+      "travelMode" => "Same train to Naypyidaw"
+    },
+    {
+      "id" => 7,
+      "title" => "Naypyidaw - Government Building",
+      "question" => "How do you continue from Yangon to the final Naypyidaw city stop?",
+      "options" => ["Same train", "Plane", "Black Toyota bZ4X", "Pink Leapmotor T03"],
+      "answerIndex" => 0,
+      "explanation" => "The same train carries the route onward to Naypyidaw and the government-building finish.",
+      "arrivalMode" => "Arrive by the same train",
+      "travelMode" => ""
     }
   ]
 }.freeze
@@ -200,7 +225,9 @@ def normalize_levels(raw_levels)
       "question" => text_value(item["question"], "New question"),
       "options" => options,
       "answerIndex" => answer_index,
-      "explanation" => text_value(item["explanation"], "")
+      "explanation" => text_value(item["explanation"], ""),
+      "arrivalMode" => text_value(item["arrivalMode"], ""),
+      "travelMode" => text_value(item["travelMode"], "")
     }
   end
 
@@ -274,7 +301,15 @@ def normalize_game_data(raw)
   {
     "settings" => {
       "startHearts" => start_hearts,
-      "maxHearts" => max_hearts
+      "maxHearts" => max_hearts,
+      "endingTitle" => text_value(
+        settings_source["endingTitle"],
+        DEFAULT_GAME_DATA["settings"]["endingTitle"]
+      ),
+      "endingLetter" => text_value(
+        settings_source["endingLetter"],
+        DEFAULT_GAME_DATA["settings"]["endingLetter"]
+      )
     },
     "map" => {
       "title" => text_value(map_source["title"], DEFAULT_GAME_DATA["map"]["title"]),

@@ -2,32 +2,33 @@ const API_BASE = "/api";
 const TOKEN_KEY = "mapquest.token.v2";
 const FLASH_KEY = "mapquest.flash.v1";
 const HEART_LAYOUT = {
+  path: "M 26 76 C 12 70, 9 58, 16 50 C 8 39, 16 20, 29 20 C 38 20, 45 24, 50 28 C 55 24, 62 20, 71 20 C 84 20, 92 39, 84 50 C 91 58, 88 71, 50 86",
   nodes: [
-    { x: 24, y: 76 },
-    { x: 18, y: 52 },
-    { x: 31, y: 24 },
-    { x: 50, y: 32 },
-    { x: 69, y: 24 },
-    { x: 82, y: 52 },
-    { x: 50, y: 84 }
+    { x: 26, y: 76 },
+    { x: 16, y: 50 },
+    { x: 29, y: 20 },
+    { x: 50, y: 28 },
+    { x: 71, y: 20 },
+    { x: 84, y: 50 },
+    { x: 50, y: 86 }
   ],
-  intro: { x: 13, y: 87 },
+  intro: { x: 8, y: 90 },
   stops: [
-    { x: 11, y: 88 },
-    { x: 7, y: 53 },
-    { x: 19, y: 14 },
-    { x: 50, y: 10 },
-    { x: 81, y: 14 },
-    { x: 93, y: 53 },
-    { x: 72, y: 90 }
+    { x: 10, y: 78, labelOffsetX: 42, labelOffsetY: -42, labelAlign: "left" },
+    { x: 6, y: 50, labelOffsetX: 42, labelOffsetY: -12, labelAlign: "left" },
+    { x: 18, y: 10, labelOffsetX: 32, labelOffsetY: 10, labelAlign: "left" },
+    { x: 50, y: 8, labelOffsetX: 0, labelOffsetY: 10, labelAlign: "center" },
+    { x: 82, y: 10, labelOffsetX: -32, labelOffsetY: 10, labelAlign: "right" },
+    { x: 94, y: 50, labelOffsetX: -42, labelOffsetY: -12, labelAlign: "right" },
+    { x: 74, y: 91, labelOffsetX: -12, labelOffsetY: -54, labelAlign: "right" }
   ],
   travels: [
-    { x: 17, y: 66 },
-    { x: 23, y: 37 },
-    { x: 40, y: 22 },
-    { x: 60, y: 22 },
-    { x: 77, y: 37 },
-    { x: 79, y: 68 }
+    { x: 13, y: 63 },
+    { x: 20, y: 31 },
+    { x: 39, y: 16 },
+    { x: 61, y: 16 },
+    { x: 80, y: 31 },
+    { x: 78, y: 67 }
   ]
 };
 
@@ -47,13 +48,13 @@ const DEFAULT_DATA = {
     imageUrl: "",
     showGrid: false,
     nodes: [
-      { id: "node-1", levelId: 1, label: "THL", x: 24, y: 76 },
-      { id: "node-2", levelId: 2, label: "BKK", x: 18, y: 52 },
-      { id: "node-3", levelId: 3, label: "KYA", x: 31, y: 24 },
-      { id: "node-4", levelId: 4, label: "RYG", x: 50, y: 32 },
-      { id: "node-5", levelId: 5, label: "KLW", x: 69, y: 24 },
-      { id: "node-6", levelId: 6, label: "YGN", x: 82, y: 52 },
-      { id: "node-7", levelId: 7, label: "NPT", x: 50, y: 84 }
+      { id: "node-1", levelId: 1, label: "THL", x: 26, y: 76 },
+      { id: "node-2", levelId: 2, label: "BKK", x: 16, y: 50 },
+      { id: "node-3", levelId: 3, label: "KYA", x: 29, y: 20 },
+      { id: "node-4", levelId: 4, label: "RYG", x: 50, y: 28 },
+      { id: "node-5", levelId: 5, label: "KLW", x: 71, y: 20 },
+      { id: "node-6", levelId: 6, label: "YGN", x: 84, y: 50 },
+      { id: "node-7", levelId: 7, label: "NPT", x: 50, y: 86 }
     ]
   },
   characters: [
@@ -76,7 +77,7 @@ const DEFAULT_DATA = {
       color: "#3fb39e",
       size: 40,
       x: 90,
-      y: 84,
+      y: 76,
       imageUrl: ""
     }
   ],
@@ -674,7 +675,7 @@ function buildRouteSvg(nodes) {
 
 function buildRoutePath(nodes) {
   if (matchesHeartLayout(nodes)) {
-    return "M 24 76 C 14 69, 10 58, 18 52 C 10 42, 18 24, 31 24 C 39 24, 45 28, 50 32 C 55 28, 61 24, 69 24 C 82 24, 90 42, 82 52 C 90 58, 86 71, 50 84";
+    return HEART_LAYOUT.path;
   }
 
   if (!nodes.length) return "";
@@ -927,6 +928,9 @@ function buildStopObject(level, position, index) {
   if (isCompleted) figure.classList.add("is-completed");
   figure.style.left = `${position.x}%`;
   figure.style.top = `${position.y}%`;
+  figure.style.setProperty("--stop-label-x", `${position.labelOffsetX ?? 0}px`);
+  figure.style.setProperty("--stop-label-y", `${position.labelOffsetY ?? 10}px`);
+  figure.style.setProperty("--stop-label-align", position.labelAlign ?? "center");
   figure.style.animationDelay = `${index * 0.35}s`;
   figure.title = level.title;
 

@@ -34,13 +34,13 @@ DEFAULT_GAME_DATA = {
     "imageUrl" => "",
     "showGrid" => false,
     "nodes" => [
-      { "id" => "node-1", "levelId" => 1, "label" => "THL", "x" => 24, "y" => 76 },
-      { "id" => "node-2", "levelId" => 2, "label" => "BKK", "x" => 18, "y" => 52 },
-      { "id" => "node-3", "levelId" => 3, "label" => "KYA", "x" => 31, "y" => 24 },
-      { "id" => "node-4", "levelId" => 4, "label" => "RYG", "x" => 50, "y" => 32 },
-      { "id" => "node-5", "levelId" => 5, "label" => "KLW", "x" => 69, "y" => 24 },
-      { "id" => "node-6", "levelId" => 6, "label" => "YGN", "x" => 82, "y" => 52 },
-      { "id" => "node-7", "levelId" => 7, "label" => "NPT", "x" => 50, "y" => 84 }
+      { "id" => "node-1", "levelId" => 1, "label" => "THL", "x" => 26, "y" => 76 },
+      { "id" => "node-2", "levelId" => 2, "label" => "BKK", "x" => 16, "y" => 50 },
+      { "id" => "node-3", "levelId" => 3, "label" => "KYA", "x" => 29, "y" => 20 },
+      { "id" => "node-4", "levelId" => 4, "label" => "RYG", "x" => 50, "y" => 28 },
+      { "id" => "node-5", "levelId" => 5, "label" => "KLW", "x" => 71, "y" => 20 },
+      { "id" => "node-6", "levelId" => 6, "label" => "YGN", "x" => 84, "y" => 50 },
+      { "id" => "node-7", "levelId" => 7, "label" => "NPT", "x" => 50, "y" => 86 }
     ]
   },
   "characters" => [
@@ -63,7 +63,7 @@ DEFAULT_GAME_DATA = {
       "color" => "#3fb39e",
       "size" => 40,
       "x" => 90,
-      "y" => 84,
+      "y" => 76,
       "imageUrl" => ""
     }
   ],

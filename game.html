@@ -90,21 +90,25 @@
             <div class="ending-copy">
               <p class="eyebrow">Final Surprise</p>
               <h2>Congratulations!</h2>
-              <p class="hint">A heart envelope opens with your special anniversary letter.</p>
+              <p class="hint">A heart envelope opens with your special anniversary letter. Tap it any time to replay the reveal.</p>
             </div>
 
             <div class="envelope-showcase">
-              <article class="letter-sheet">
-                <p class="letter-kicker" id="endingTitle"></p>
-                <p class="letter-body" id="endingLetter"></p>
-              </article>
+              <div class="letter-pocket">
+                <article class="letter-sheet">
+                  <p class="letter-kicker" id="endingTitle"></p>
+                  <p class="letter-body" id="endingLetter"></p>
+                </article>
+              </div>
 
-              <div class="heart-envelope" aria-hidden="true">
+              <button class="heart-envelope" id="endingRevealBtn" type="button" aria-label="Open the letter">
                 <span class="envelope-back"></span>
                 <span class="envelope-front"></span>
                 <span class="envelope-flap"></span>
                 <span class="heart-envelope-seal"></span>
-              </div>
+              </button>
+
+              <p class="ending-prompt">Tap the envelope to open the letter again.</p>
             </div>
 
             <div class="ending-actions">

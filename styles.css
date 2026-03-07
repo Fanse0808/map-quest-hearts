@@ -1139,14 +1139,24 @@ body::before {
   position: relative;
   display: grid;
   place-items: center;
-  min-height: 410px;
-  padding: 36px 0 12px;
+  min-height: 460px;
+  padding: 18px 0 12px;
+}
+
+.letter-pocket {
+  position: relative;
+  width: min(420px, calc(100vw - 112px));
+  height: 312px;
+  display: grid;
+  place-items: end center;
 }
 
 .letter-sheet {
-  position: relative;
-  z-index: 1;
-  width: min(420px, calc(100vw - 96px));
+  position: absolute;
+  left: 50%;
+  bottom: 30px;
+  z-index: 2;
+  width: 100%;
   min-height: 250px;
   max-height: 46vh;
   overflow: auto;
@@ -1155,15 +1165,19 @@ body::before {
   border: 1px solid rgba(160, 58, 100, 0.14);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(255, 246, 241, 0.98));
   box-shadow: 0 20px 34px rgba(101, 53, 69, 0.18);
-  transform: translateY(68px) scale(0.92);
+  transform: translate(-50%, 138px) scale(0.88);
   opacity: 0;
-  transition: transform 0.55s ease, opacity 0.4s ease;
+  transition:
+    transform 0.82s cubic-bezier(0.2, 0.82, 0.2, 1),
+    opacity 0.34s ease,
+    z-index 0s linear 0.24s;
 }
 
 .modal--ending.is-open .letter-sheet {
-  transform: translateY(-6px) scale(1);
+  z-index: 5;
+  transform: translate(-50%, -18px) scale(1);
   opacity: 1;
-  transition-delay: 0.14s;
+  transition-delay: 0.18s, 0.18s, 0s;
 }
 
 .letter-kicker {
@@ -1185,16 +1199,25 @@ body::before {
   position: absolute;
   left: 50%;
   bottom: 0;
-  z-index: 2;
+  z-index: 4;
   width: min(380px, 86vw);
   aspect-ratio: 1.16 / 0.76;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
   transform: translateX(-50%) translateY(10px) scale(0.96);
   filter: drop-shadow(0 18px 24px rgba(101, 53, 69, 0.18));
-  transition: transform 0.45s ease;
+  transition: transform 0.5s ease;
+}
+
+.heart-envelope:focus-visible {
+  outline: 2px solid rgba(214, 76, 131, 0.55);
+  outline-offset: 10px;
 }
 
 .modal--ending.is-open .heart-envelope {
-  transform: translateX(-50%) translateY(0) scale(1);
+  transform: translateX(-50%) translateY(14px) scale(0.98);
 }
 
 .envelope-back,
@@ -1207,12 +1230,14 @@ body::before {
 
 .envelope-back {
   inset: 24% 5% 0;
+  z-index: 1;
   border-radius: 26px;
   background: linear-gradient(180deg, #ffc0d5, #f39bb8);
 }
 
 .envelope-front {
   inset: auto 5% 0;
+  z-index: 3;
   height: 60%;
   background: linear-gradient(180deg, #f6aac0, #ec87aa);
   clip-path: polygon(0 0, 50% 62%, 100% 0, 100% 100%, 0 100%);
@@ -1221,25 +1246,29 @@ body::before {
 }
 
 .modal--ending.is-open .envelope-front {
-  transform: translateY(6px);
+  transform: translateY(10px);
 }
 
 .envelope-flap {
   inset: 0 5% auto;
+  z-index: 5;
   height: 62%;
   background: linear-gradient(180deg, #ffd2e1, #f2abc2);
   clip-path: polygon(0 100%, 50% 16%, 100% 100%);
   transform-origin: top center;
-  transition: transform 0.6s ease;
+  backface-visibility: hidden;
+  transition: transform 0.62s ease, opacity 0.28s ease;
 }
 
 .modal--ending.is-open .envelope-flap {
-  transform: perspective(900px) rotateX(180deg);
+  opacity: 0.18;
+  transform: perspective(900px) translateY(-8px) rotateX(-172deg);
 }
 
 .heart-envelope-seal {
   left: 50%;
   top: 44%;
+  z-index: 6;
   width: 56px;
   height: 56px;
   transform: translate(-50%, -50%);
@@ -1250,8 +1279,8 @@ body::before {
 }
 
 .modal--ending.is-open .heart-envelope-seal {
-  opacity: 0.18;
-  transform: translate(-50%, -56%) scale(0.82);
+  opacity: 0;
+  transform: translate(-50%, -62%) scale(0.72);
 }
 
 .heart-envelope-seal::before,
@@ -1282,6 +1311,13 @@ body::before {
 .ending-actions {
   display: flex;
   justify-content: center;
+}
+
+.ending-prompt {
+  margin: 8px 0 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-muted);
 }
 
 .ending-actions .btn {
@@ -1950,12 +1986,16 @@ textarea {
   }
 
   .envelope-showcase {
-    min-height: 360px;
-    padding-top: 18px;
+    min-height: 390px;
+    padding-top: 10px;
+  }
+
+  .letter-pocket {
+    width: min(100%, 340px);
+    height: 284px;
   }
 
   .letter-sheet {
-    width: min(100%, 360px);
     min-height: 220px;
     max-height: 44vh;
     padding: 22px 18px;
@@ -1963,6 +2003,10 @@ textarea {
 
   .heart-envelope {
     width: min(320px, 88vw);
+  }
+
+  .ending-prompt {
+    max-width: 24ch;
   }
 
   .admin-body {

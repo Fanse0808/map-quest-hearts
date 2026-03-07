@@ -145,6 +145,7 @@ const el = {
   endingModal: document.getElementById("endingModal"),
   endingClose: document.getElementById("endingClose"),
   endingDismissBtn: document.getElementById("endingDismissBtn"),
+  endingRevealBtn: document.getElementById("endingRevealBtn"),
   endingTitle: document.getElementById("endingTitle"),
   endingLetter: document.getElementById("endingLetter"),
   adminModal: document.getElementById("adminModal"),
@@ -227,6 +228,10 @@ function bindEvents() {
 
   el.endingDismissBtn.addEventListener("click", () => {
     closeEndingModal();
+  });
+
+  el.endingRevealBtn.addEventListener("click", () => {
+    replayEndingReveal();
   });
 
   el.endingModal.addEventListener("click", (event) => {
@@ -1105,14 +1110,18 @@ function openEndingModal() {
   if (!state?.finished) return;
 
   renderEndingLetter();
-  window.clearTimeout(endingRevealTimer);
   el.endingModal.classList.remove("hidden");
   el.endingModal.setAttribute("aria-hidden", "false");
+  replayEndingReveal();
+}
+
+function replayEndingReveal() {
+  window.clearTimeout(endingRevealTimer);
   el.endingModal.classList.remove("is-open");
   void el.endingModal.offsetWidth;
   endingRevealTimer = window.setTimeout(() => {
     el.endingModal.classList.add("is-open");
-  }, 60);
+  }, 120);
 }
 
 function closeEndingModal() {

@@ -25,7 +25,7 @@ DEFAULT_GAME_DATA = {
     "startHearts" => 3,
     "maxHearts" => 5,
     "endingTitle" => "Congratulations, My Love",
-    "endingLetter" => "You made it all the way to the end of our special anniversary journey.\n\nEvery stop on this map holds a memory, but the best part of every trip is still getting to share it with you.\n\nThank you for the laughter, the softness, the patience, and the love that made this story ours.\n\nHappy Anniversary.\n\nWith all my love,"
+    "endingLetter" => "My love,\n\nYou made it to the end of our special anniversary journey, but this does not feel like an ending to me. It feels like a quiet reminder of how beautiful it is to keep choosing each other.\n\nEvery stop on this map holds a memory I want to keep close - the small moments, the laughter, the comfort, the sweetness of simply being with you. What makes it all so special is not just where we went, but that every step became ours together.\n\nThis journey is only the beginning. I want this love to keep growing through many more dates, trips, ordinary days, little adventures, and soft moments that turn into memories we will carry for years.\n\nThank you for being my favorite place, my favorite feeling, and the person I want beside me for every road still ahead.\n\nHappy Anniversary.\n\nWith all my love,"
   },
   "map" => {
     "title" => "Our Special Anniversary Journey",
@@ -59,7 +59,7 @@ DEFAULT_GAME_DATA = {
       "id" => "char-2",
       "name" => "Moss",
       "role" => "npc",
-      "shape" => "square",
+      "shape" => "circle",
       "color" => "#3fb39e",
       "size" => 40,
       "x" => 90,
@@ -71,70 +71,105 @@ DEFAULT_GAME_DATA = {
     {
       "id" => 1,
       "title" => "Thanlyin - Japanese Hotel",
-      "question" => "What makes the first stop of an anniversary trip feel special?",
-      "options" => ["Being there together", "Checking in quickly", "Finding the biggest room", "Taking separate photos"],
-      "answerIndex" => 0,
-      "explanation" => "The place matters, but sharing the moment together matters more.",
+      "question" => "What made our trip to Thanlyin feel like the start of something even sweeter?",
+      "options" => [
+        "Trying to plan every minute perfectly",
+        "Rushing through the day",
+        "Mon July 21st felt special because we were simply there together",
+        "Only caring about the hotel itself"
+      ],
+      "answerIndex" => 2,
+      "explanation" => "Mon July 21st still feels warm because it was not about perfection. It was about us, side by side, making a memory that felt deeply ours.",
       "arrivalMode" => "Pink Leapmotor T03 into Thanlyin",
       "travelMode" => "Plane to Bangkok"
     },
     {
       "id" => 2,
       "title" => "Bangkok - City Hotel",
-      "question" => "What keeps a busy city stop romantic?",
-      "options" => ["Sharing the night together", "Rushing through the schedule", "Splitting up all evening", "Talking only about traffic"],
-      "answerIndex" => 0,
-      "explanation" => "Even in a busy city, the best part is still being together.",
+      "question" => "In busy Bangkok, what makes the city feel soft and romantic when we're together?",
+      "options" => [
+        "Treating it like any ordinary stop",
+        "Keeping everything rushed and serious",
+        "Spending most of the time on our phones",
+        "Turning all the noise into our own little world"
+      ],
+      "answerIndex" => 3,
+      "explanation" => "Even the busiest place feels gentle when it becomes a memory shared between us.",
       "arrivalMode" => "Arrive by plane",
       "travelMode" => "Nissan Kicks to Khao Yai"
     },
     {
       "id" => 3,
       "title" => "Khao Yai - Castle",
-      "question" => "What turns a castle stay into a real memory?",
-      "options" => ["A quiet moment together", "A packed timetable", "Racing to the next stop", "Ignoring the view"],
-      "answerIndex" => 0,
-      "explanation" => "A beautiful place becomes unforgettable when the two of you slow down and share it.",
+      "question" => "What made our movie date feel like more than just watching a film?",
+      "options" => [
+        "Pretending it was not a special day",
+        "Sat July 5th felt memorable because of the cozy time we shared together",
+        "Only remembering what was on the screen",
+        "Trying to leave as quickly as possible"
+      ],
+      "answerIndex" => 1,
+      "explanation" => "Sat July 5th was never just about the movie. It was about the comfort of being with you and how naturally that moment became ours.",
       "arrivalMode" => "Arrive by Nissan Kicks",
       "travelMode" => "Nissan Kicks to Rayong"
     },
     {
       "id" => 4,
       "title" => "Rayong - Beach Resort",
-      "question" => "What belongs in a perfect beach-resort day?",
-      "options" => ["Slow time together", "Work emails", "A tight deadline", "A noisy argument"],
-      "answerIndex" => 0,
-      "explanation" => "The best beach days are the ones where you can slow down and just enjoy each other.",
+      "question" => "At Rayong, what makes a beach day feel most like us?",
+      "options" => [
+        "Letting stress lead the day",
+        "Checking emails and watching the clock",
+        "Slow, happy time together with nothing to prove",
+        "Filling every second with plans"
+      ],
+      "answerIndex" => 2,
+      "explanation" => "The sweetest moments are the calm ones, when being together is already enough.",
       "arrivalMode" => "Arrive by Nissan Kicks",
       "travelMode" => "Black Toyota bZ4X to Kalaw"
     },
     {
       "id" => 5,
       "title" => "Kalaw - Small Townhouse",
-      "question" => "What makes a small townhouse feel warm and full of love?",
-      "options" => ["The person you share it with", "The size of the windows", "The number of rooms", "The street outside"],
-      "answerIndex" => 0,
-      "explanation" => "The feeling of home comes from who is beside you.",
+      "question" => "In a quiet place like Kalaw, what makes a small townhouse feel like home for us?",
+      "options" => [
+        "The number of rooms inside",
+        "How quickly we can move on",
+        "How impressive it looks from outside",
+        "The warmth of sharing it with each other"
+      ],
+      "answerIndex" => 3,
+      "explanation" => "Home is not about size. It is the comfort, safety, and closeness we create together.",
       "arrivalMode" => "Arrive by black Toyota bZ4X",
       "travelMode" => "Train to Yangon"
     },
     {
       "id" => 6,
       "title" => "Yangon - Golden Pagoda",
-      "question" => "What matters most at a beautiful stop like this?",
-      "options" => ["Making the memory together", "Counting every step", "Leaving as fast as possible", "Checking the time the whole way"],
-      "answerIndex" => 0,
-      "explanation" => "The memory matters more than the rush around it.",
+      "question" => "What made our first date feel different from every other ordinary day?",
+      "options" => [
+        "Trying to say only perfect things",
+        "Sat Jun 21st felt different because being with you already felt easy and right",
+        "Treating it like it meant nothing",
+        "Watching the time too closely"
+      ],
+      "answerIndex" => 1,
+      "explanation" => "Sat Jun 21st feels especially dear because it carried the first spark of this story and the first feeling that this could become something real.",
       "arrivalMode" => "Arrive by train",
       "travelMode" => "Same train to Naypyidaw"
     },
     {
       "id" => 7,
       "title" => "Naypyidaw - Government Building",
-      "question" => "What is the best ending to this anniversary journey?",
-      "options" => ["Choosing each other again", "Going separate ways", "Skipping the final moment", "Forgetting the memories"],
-      "answerIndex" => 0,
-      "explanation" => "The best ending is always choosing the love story again.",
+      "question" => "What made our staycation feel like such a sweet chapter for us?",
+      "options" => [
+        "Because it passed without meaning",
+        "Because it was only about the place",
+        "Tue Aug 29th to Wed Aug 30th felt special because even ordinary time becomes beautiful with you",
+        "Because we needed a strict schedule"
+      ],
+      "answerIndex" => 2,
+      "explanation" => "That staycation matters because Tue Aug 29th to Wed Aug 30th proved again that we do not need something grand. We just need us, and the moment becomes beautiful.",
       "arrivalMode" => "Arrive by the same train",
       "travelMode" => ""
     }

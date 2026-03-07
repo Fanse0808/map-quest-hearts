@@ -38,7 +38,7 @@ const DEFAULT_DATA = {
     maxHearts: 5,
     endingTitle: "Congratulations, My Love",
     endingLetter:
-      "You made it all the way to the end of our special anniversary journey.\n\nEvery stop on this map holds a memory, but the best part of every trip is still getting to share it with you.\n\nThank you for the laughter, the softness, the patience, and the love that made this story ours.\n\nHappy Anniversary.\n\nWith all my love,"
+      "My love,\n\nYou made it to the end of our special anniversary journey, but this does not feel like an ending to me. It feels like a quiet reminder of how beautiful it is to keep choosing each other.\n\nEvery stop on this map holds a memory I want to keep close - the small moments, the laughter, the comfort, the sweetness of simply being with you. What makes it all so special is not just where we went, but that every step became ours together.\n\nThis journey is only the beginning. I want this love to keep growing through many more dates, trips, ordinary days, little adventures, and soft moments that turn into memories we will carry for years.\n\nThank you for being my favorite place, my favorite feeling, and the person I want beside me for every road still ahead.\n\nHappy Anniversary.\n\nWith all my love,"
   },
   map: {
     title: "Our Special Anniversary Journey",
@@ -73,7 +73,7 @@ const DEFAULT_DATA = {
       id: "char-2",
       name: "Moss",
       role: "npc",
-      shape: "square",
+      shape: "circle",
       color: "#3fb39e",
       size: 40,
       x: 90,
@@ -85,70 +85,112 @@ const DEFAULT_DATA = {
     {
       id: 1,
       title: "Thanlyin - Japanese Hotel",
-      question: "What makes the first stop of an anniversary trip feel special?",
-      options: ["Being there together", "Checking in quickly", "Finding the biggest room", "Taking separate photos"],
-      answerIndex: 0,
-      explanation: "The place matters, but sharing the moment together matters more.",
+      question: "What made our trip to Thanlyin feel like the start of something even sweeter?",
+      options: [
+        "Trying to plan every minute perfectly",
+        "Rushing through the day",
+        "Mon July 21st felt special because we were simply there together",
+        "Only caring about the hotel itself"
+      ],
+      answerIndex: 2,
+      explanation:
+        "Mon July 21st still feels warm because it was not about perfection. It was about us, side by side, making a memory that felt deeply ours.",
       arrivalMode: "Pink Leapmotor T03 into Thanlyin",
       travelMode: "Plane to Bangkok"
     },
     {
       id: 2,
       title: "Bangkok - City Hotel",
-      question: "What keeps a busy city stop romantic?",
-      options: ["Sharing the night together", "Rushing through the schedule", "Splitting up all evening", "Talking only about traffic"],
-      answerIndex: 0,
-      explanation: "Even in a busy city, the best part is still being together.",
+      question: "In busy Bangkok, what makes the city feel soft and romantic when we're together?",
+      options: [
+        "Treating it like any ordinary stop",
+        "Keeping everything rushed and serious",
+        "Spending most of the time on our phones",
+        "Turning all the noise into our own little world"
+      ],
+      answerIndex: 3,
+      explanation:
+        "Even the busiest place feels gentle when it becomes a memory shared between us.",
       arrivalMode: "Arrive by plane",
       travelMode: "Nissan Kicks to Khao Yai"
     },
     {
       id: 3,
       title: "Khao Yai - Castle",
-      question: "What turns a castle stay into a real memory?",
-      options: ["A quiet moment together", "A packed timetable", "Racing to the next stop", "Ignoring the view"],
-      answerIndex: 0,
-      explanation: "A beautiful place becomes unforgettable when the two of you slow down and share it.",
+      question: "What made our movie date feel like more than just watching a film?",
+      options: [
+        "Pretending it was not a special day",
+        "Sat July 5th felt memorable because of the cozy time we shared together",
+        "Only remembering what was on the screen",
+        "Trying to leave as quickly as possible"
+      ],
+      answerIndex: 1,
+      explanation:
+        "Sat July 5th was never just about the movie. It was about the comfort of being with you and how naturally that moment became ours.",
       arrivalMode: "Arrive by Nissan Kicks",
       travelMode: "Nissan Kicks to Rayong"
     },
     {
       id: 4,
       title: "Rayong - Beach Resort",
-      question: "What belongs in a perfect beach-resort day?",
-      options: ["Slow time together", "Work emails", "A tight deadline", "A noisy argument"],
-      answerIndex: 0,
-      explanation: "The best beach days are the ones where you can slow down and just enjoy each other.",
+      question: "At Rayong, what makes a beach day feel most like us?",
+      options: [
+        "Letting stress lead the day",
+        "Checking emails and watching the clock",
+        "Slow, happy time together with nothing to prove",
+        "Filling every second with plans"
+      ],
+      answerIndex: 2,
+      explanation:
+        "The sweetest moments are the calm ones, when being together is already enough.",
       arrivalMode: "Arrive by Nissan Kicks",
       travelMode: "Black Toyota bZ4X to Kalaw"
     },
     {
       id: 5,
       title: "Kalaw - Small Townhouse",
-      question: "What makes a small townhouse feel warm and full of love?",
-      options: ["The person you share it with", "The size of the windows", "The number of rooms", "The street outside"],
-      answerIndex: 0,
-      explanation: "The feeling of home comes from who is beside you.",
+      question: "In a quiet place like Kalaw, what makes a small townhouse feel like home for us?",
+      options: [
+        "The number of rooms inside",
+        "How quickly we can move on",
+        "How impressive it looks from outside",
+        "The warmth of sharing it with each other"
+      ],
+      answerIndex: 3,
+      explanation:
+        "Home is not about size. It is the comfort, safety, and closeness we create together.",
       arrivalMode: "Arrive by black Toyota bZ4X",
       travelMode: "Train to Yangon"
     },
     {
       id: 6,
       title: "Yangon - Golden Pagoda",
-      question: "What matters most at a beautiful stop like this?",
-      options: ["Making the memory together", "Counting every step", "Leaving as fast as possible", "Checking the time the whole way"],
-      answerIndex: 0,
-      explanation: "The memory matters more than the rush around it.",
+      question: "What made our first date feel different from every other ordinary day?",
+      options: [
+        "Trying to say only perfect things",
+        "Sat Jun 21st felt different because being with you already felt easy and right",
+        "Treating it like it meant nothing",
+        "Watching the time too closely"
+      ],
+      answerIndex: 1,
+      explanation:
+        "Sat Jun 21st feels especially dear because it carried the first spark of this story and the first feeling that this could become something real.",
       arrivalMode: "Arrive by train",
       travelMode: "Same train to Naypyidaw"
     },
     {
       id: 7,
       title: "Naypyidaw - Government Building",
-      question: "What is the best ending to this anniversary journey?",
-      options: ["Choosing each other again", "Going separate ways", "Skipping the final moment", "Forgetting the memories"],
-      answerIndex: 0,
-      explanation: "The best ending is always choosing the love story again.",
+      question: "What made our staycation feel like such a sweet chapter for us?",
+      options: [
+        "Because it passed without meaning",
+        "Because it was only about the place",
+        "Tue Aug 29th to Wed Aug 30th felt special because even ordinary time becomes beautiful with you",
+        "Because we needed a strict schedule"
+      ],
+      answerIndex: 2,
+      explanation:
+        "That staycation matters because Tue Aug 29th to Wed Aug 30th proved again that we do not need something grand. We just need us, and the moment becomes beautiful.",
       arrivalMode: "Arrive by the same train",
       travelMode: ""
     }
@@ -755,23 +797,52 @@ function buildCharacter(character, position) {
   wrapper.style.top = `${position.y}%`;
   wrapper.style.width = `${character.size}px`;
   wrapper.style.height = `${character.size}px`;
-  wrapper.style.background = character.color;
+  wrapper.style.setProperty("--character-fill", character.color);
+  wrapper.title = character.name || "";
 
   if (character.imageUrl) {
     const image = document.createElement("img");
     image.src = character.imageUrl;
     image.alt = character.name;
     wrapper.appendChild(image);
+  } else {
+    wrapper.classList.add("character--placeholder");
+
+    const glyph = document.createElement("span");
+    glyph.className = "character__glyph";
+    glyph.innerHTML = buildCharacterGlyph(character.role);
+    wrapper.appendChild(glyph);
   }
 
   return wrapper;
+}
+
+function buildCharacterGlyph(role) {
+  if (role === "player") {
+    return `
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="18" fill="rgba(255,255,255,0.22)"></circle>
+        <path d="M24 33c-7-4.5-10-8.1-10-12 0-3.3 2.4-5.8 5.6-5.8 2 0 3.5.9 4.4 2.4.9-1.5 2.4-2.4 4.4-2.4 3.2 0 5.6 2.5 5.6 5.8 0 3.9-3 7.5-10 12Z" fill="rgba(255,255,255,0.95)"></path>
+      </svg>
+    `;
+  }
+
+  return `
+    <svg viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="18" fill="rgba(255,255,255,0.24)"></circle>
+      <path d="M24 11l3.2 7.6 8.2.7-6.3 5.3 1.9 8-7-4.2-7 4.2 1.9-8-6.3-5.3 8.2-.7L24 11Z" fill="rgba(255,255,255,0.95)"></path>
+    </svg>
+  `;
 }
 
 function routeTone(label) {
   const text = String(label || "").toLowerCase();
   if (text.includes("plane")) return "plane";
   if (text.includes("train")) return "train";
-  if (text.includes("toyota") || text.includes("nissan") || text.includes("leapmotor")) return "car";
+  if (text.includes("leapmotor")) return "pink-ev";
+  if (text.includes("nissan")) return "kicks";
+  if (text.includes("toyota")) return "toyota-ev";
+  if (text.includes("car")) return "car";
   return "default";
 }
 
@@ -968,6 +1039,32 @@ function buildTravelSvg(tone) {
         <rect x="34" y="12" width="10" height="8" rx="2" fill="rgba(255,255,255,0.88)"></rect>
         <circle cx="24" cy="32" r="4" fill="currentColor"></circle>
         <circle cx="48" cy="32" r="4" fill="currentColor"></circle>
+      </svg>
+    `;
+  }
+
+  if (tone === "pink-ev") {
+    return `
+      <svg viewBox="0 0 72 40" aria-hidden="true">
+        <path d="M18 15c1.8-4 5.7-6 11.8-6h7.4c4.8 0 8.5 1.8 11.2 5.4l2.5 3.6h3.8c3.2 0 5.3 1.8 5.3 4.6V25c0 2.8-2.1 4.9-5 4.9h-2.7a5.6 5.6 0 0 1-10.9 0H29.6a5.6 5.6 0 0 1-10.9 0H17c-2.8 0-5-2.2-5-5v-2c0-2.8 2.2-4.9 5-4.9h1Z" fill="currentColor"></path>
+        <path d="M25 16.4h19.5c1.5 0 2 .9 1.2 1.9l-3.1 4.1H22.4l1.4-4c.3-1.2.7-2 1.2-2Z" fill="rgba(255,255,255,0.82)"></path>
+        <circle cx="24.2" cy="29.2" r="4.6" fill="#403447"></circle>
+        <circle cx="47.8" cy="29.2" r="4.6" fill="#403447"></circle>
+        <circle cx="24.2" cy="29.2" r="2" fill="rgba(255,255,255,0.78)"></circle>
+        <circle cx="47.8" cy="29.2" r="2" fill="rgba(255,255,255,0.78)"></circle>
+      </svg>
+    `;
+  }
+
+  if (tone === "kicks" || tone === "toyota-ev") {
+    return `
+      <svg viewBox="0 0 72 40" aria-hidden="true">
+        <path d="M17 16.5c2.5-4 6.4-6 12-6h8.2c4.5 0 8.5 1.7 11.7 5l3.5 3.6h2.2c3 0 5.4 2 5.4 4.8v1.4c0 2.6-2.1 4.8-4.7 4.8h-3a5.6 5.6 0 0 1-10.9 0H30.5a5.6 5.6 0 0 1-10.9 0H17c-2.8 0-5-2.2-5-5v-.7c0-2.8 2.2-5 5-5h0Z" fill="currentColor"></path>
+        <path d="M24.8 16.8H45c1.5 0 2 .9 1.1 1.9l-3 3.8H21.7l1.8-4.2c.3-.8.8-1.5 1.3-1.5Z" fill="rgba(255,255,255,0.84)"></path>
+        <circle cx="24.4" cy="29.3" r="4.6" fill="#38404c"></circle>
+        <circle cx="47.6" cy="29.3" r="4.6" fill="#38404c"></circle>
+        <circle cx="24.4" cy="29.3" r="1.9" fill="rgba(255,255,255,0.74)"></circle>
+        <circle cx="47.6" cy="29.3" r="1.9" fill="rgba(255,255,255,0.74)"></circle>
       </svg>
     `;
   }

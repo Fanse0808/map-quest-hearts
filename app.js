@@ -1,6 +1,35 @@
 const API_BASE = "/api";
 const TOKEN_KEY = "mapquest.token.v2";
 const FLASH_KEY = "mapquest.flash.v1";
+const HEART_LAYOUT = {
+  nodes: [
+    { x: 24, y: 76 },
+    { x: 18, y: 52 },
+    { x: 31, y: 24 },
+    { x: 50, y: 32 },
+    { x: 69, y: 24 },
+    { x: 82, y: 52 },
+    { x: 50, y: 84 }
+  ],
+  intro: { x: 13, y: 87 },
+  stops: [
+    { x: 11, y: 88 },
+    { x: 7, y: 53 },
+    { x: 19, y: 14 },
+    { x: 50, y: 10 },
+    { x: 81, y: 14 },
+    { x: 93, y: 53 },
+    { x: 72, y: 90 }
+  ],
+  travels: [
+    { x: 17, y: 66 },
+    { x: 23, y: 37 },
+    { x: 40, y: 22 },
+    { x: 60, y: 22 },
+    { x: 77, y: 37 },
+    { x: 79, y: 68 }
+  ]
+};
 
 const DEFAULT_DATA = {
   settings: {
@@ -18,13 +47,13 @@ const DEFAULT_DATA = {
     imageUrl: "",
     showGrid: false,
     nodes: [
-      { id: "node-1", levelId: 1, label: "THL", x: 12, y: 80 },
-      { id: "node-2", levelId: 2, label: "BKK", x: 24, y: 57 },
-      { id: "node-3", levelId: 3, label: "KYA", x: 46, y: 78 },
-      { id: "node-4", levelId: 4, label: "RYG", x: 71, y: 59 },
-      { id: "node-5", levelId: 5, label: "KLW", x: 87, y: 34 },
-      { id: "node-6", levelId: 6, label: "YGN", x: 61, y: 12 },
-      { id: "node-7", levelId: 7, label: "NPT", x: 25, y: 21 }
+      { id: "node-1", levelId: 1, label: "THL", x: 24, y: 76 },
+      { id: "node-2", levelId: 2, label: "BKK", x: 18, y: 52 },
+      { id: "node-3", levelId: 3, label: "KYA", x: 31, y: 24 },
+      { id: "node-4", levelId: 4, label: "RYG", x: 50, y: 32 },
+      { id: "node-5", levelId: 5, label: "KLW", x: 69, y: 24 },
+      { id: "node-6", levelId: 6, label: "YGN", x: 82, y: 52 },
+      { id: "node-7", levelId: 7, label: "NPT", x: 50, y: 84 }
     ]
   },
   characters: [
@@ -644,6 +673,10 @@ function buildRouteSvg(nodes) {
 }
 
 function buildRoutePath(nodes) {
+  if (matchesHeartLayout(nodes)) {
+    return "M 24 76 C 14 69, 10 58, 18 52 C 10 42, 18 24, 31 24 C 39 24, 45 28, 50 32 C 55 28, 61 24, 69 24 C 82 24, 90 42, 82 52 C 90 58, 86 71, 50 84";
+  }
+
   if (!nodes.length) return "";
   if (nodes.length === 1) return `M ${nodes[0].x} ${nodes[0].y}`;
   if (nodes.length === 2) return `M ${nodes[0].x} ${nodes[0].y} L ${nodes[1].x} ${nodes[1].y}`;
@@ -664,6 +697,15 @@ function buildRoutePath(nodes) {
     path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
   }
   return path;
+}
+
+function matchesHeartLayout(nodes) {
+  if (!Array.isArray(nodes) || nodes.length !== HEART_LAYOUT.nodes.length) return false;
+
+  return HEART_LAYOUT.nodes.every((point, index) => {
+    const node = nodes[index];
+    return Math.abs((node?.x ?? 0) - point.x) < 1 && Math.abs((node?.y ?? 0) - point.y) < 1;
+  });
 }
 
 function appendMapLink(svg, from, to) {
@@ -771,6 +813,10 @@ function resolvePlayerCharacterPosition(currentNode, previousNode, index) {
 }
 
 function resolveIntroFigurePosition(node) {
+  if (matchesHeartLayout(data.map.nodes)) {
+    return { ...HEART_LAYOUT.intro };
+  }
+
   const direction = normalizeVector(-1, 1);
   return {
     x: clamp(node.x + direction.x * 11, 8, 92),
@@ -779,6 +825,10 @@ function resolveIntroFigurePosition(node) {
 }
 
 function resolveStopFigurePosition(node, index) {
+  if (matchesHeartLayout(data.map.nodes) && HEART_LAYOUT.stops[index]) {
+    return { ...HEART_LAYOUT.stops[index] };
+  }
+
   const directionSeed = getOutwardVector(node, index);
   const direction = normalizeVector(directionSeed.x, directionSeed.y);
   const distance = 14;
@@ -790,6 +840,10 @@ function resolveStopFigurePosition(node, index) {
 }
 
 function resolveTravelFigurePosition(node, nextNode, index) {
+  if (matchesHeartLayout(data.map.nodes) && HEART_LAYOUT.travels[index]) {
+    return { ...HEART_LAYOUT.travels[index] };
+  }
+
   const midX = (node.x + nextNode.x) / 2;
   const midY = (node.y + nextNode.y) / 2;
   const segment = normalizeVector(nextNode.x - node.x, nextNode.y - node.y);

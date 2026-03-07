@@ -54,70 +54,70 @@ const DEFAULT_DATA = {
     {
       id: 1,
       title: "Thanlyin - Japanese Hotel",
-      question: "Which ride begins the anniversary journey before the first stay in Thanlyin?",
-      options: ["Pink Leapmotor T03", "Plane", "Nissan Kicks", "Train"],
+      question: "What makes the first stop of an anniversary trip feel special?",
+      options: ["Being there together", "Checking in quickly", "Finding the biggest room", "Taking separate photos"],
       answerIndex: 0,
-      explanation: "The journey opens with a small pink Leapmotor T03 to the Japanese hotel in Thanlyin.",
+      explanation: "The place matters, but sharing the moment together matters more.",
       arrivalMode: "Pink Leapmotor T03 into Thanlyin",
       travelMode: "Plane to Bangkok"
     },
     {
       id: 2,
       title: "Bangkok - City Hotel",
-      question: "How do you travel from Thanlyin to the Bangkok city hotel?",
-      options: ["Plane", "Train", "Boat", "Black Toyota bZ4X"],
+      question: "What keeps a busy city stop romantic?",
+      options: ["Sharing the night together", "Rushing through the schedule", "Splitting up all evening", "Talking only about traffic"],
       answerIndex: 0,
-      explanation: "After Thanlyin, the route flies to Bangkok by plane.",
+      explanation: "Even in a busy city, the best part is still being together.",
       arrivalMode: "Arrive by plane",
       travelMode: "Nissan Kicks to Khao Yai"
     },
     {
       id: 3,
       title: "Khao Yai - Castle",
-      question: "Which vehicle carries the journey from Bangkok into Khao Yai?",
-      options: ["Nissan Kicks", "Plane", "Train", "Pink Leapmotor T03"],
+      question: "What turns a castle stay into a real memory?",
+      options: ["A quiet moment together", "A packed timetable", "Racing to the next stop", "Ignoring the view"],
       answerIndex: 0,
-      explanation: "The Bangkok-to-Khao-Yai leg uses a Nissan Kicks.",
+      explanation: "A beautiful place becomes unforgettable when the two of you slow down and share it.",
       arrivalMode: "Arrive by Nissan Kicks",
       travelMode: "Nissan Kicks to Rayong"
     },
     {
       id: 4,
       title: "Rayong - Beach Resort",
-      question: "How do you continue from Khao Yai to the Rayong beach resort?",
-      options: ["Nissan Kicks", "Plane", "Train", "Black Toyota bZ4X"],
+      question: "What belongs in a perfect beach-resort day?",
+      options: ["Slow time together", "Work emails", "A tight deadline", "A noisy argument"],
       answerIndex: 0,
-      explanation: "The next leg continues in the Nissan Kicks down to Rayong.",
+      explanation: "The best beach days are the ones where you can slow down and just enjoy each other.",
       arrivalMode: "Arrive by Nissan Kicks",
       travelMode: "Black Toyota bZ4X to Kalaw"
     },
     {
       id: 5,
       title: "Kalaw - Small Townhouse",
-      question: "Which car brings the journey from Rayong to Kalaw?",
-      options: ["Black Toyota bZ4X", "Pink Leapmotor T03", "Plane", "Train"],
+      question: "What makes a small townhouse feel warm and full of love?",
+      options: ["The person you share it with", "The size of the windows", "The number of rooms", "The street outside"],
       answerIndex: 0,
-      explanation: "A black Toyota bZ4X is used to reach Kalaw.",
+      explanation: "The feeling of home comes from who is beside you.",
       arrivalMode: "Arrive by black Toyota bZ4X",
       travelMode: "Train to Yangon"
     },
     {
       id: 6,
       title: "Yangon - Golden Pagoda",
-      question: "Which transport takes the route into Yangon city and its golden pagoda?",
-      options: ["Train", "Plane", "Nissan Kicks", "Boat"],
+      question: "What matters most at a beautiful stop like this?",
+      options: ["Making the memory together", "Counting every step", "Leaving as fast as possible", "Checking the time the whole way"],
       answerIndex: 0,
-      explanation: "The journey continues by train into Yangon and the golden pagoda stop.",
+      explanation: "The memory matters more than the rush around it.",
       arrivalMode: "Arrive by train",
       travelMode: "Same train to Naypyidaw"
     },
     {
       id: 7,
       title: "Naypyidaw - Government Building",
-      question: "How do you continue from Yangon to the final Naypyidaw city stop?",
-      options: ["Same train", "Plane", "Black Toyota bZ4X", "Pink Leapmotor T03"],
+      question: "What is the best ending to this anniversary journey?",
+      options: ["Choosing each other again", "Going separate ways", "Skipping the final moment", "Forgetting the memories"],
       answerIndex: 0,
-      explanation: "The same train carries the route onward to Naypyidaw and the government-building finish.",
+      explanation: "The best ending is always choosing the love story again.",
       arrivalMode: "Arrive by the same train",
       travelMode: ""
     }
@@ -177,6 +177,7 @@ let analyticsSummary = null;
 let adminTab = "map";
 let actionLock = false;
 let completionShown = false;
+let endingRevealTimer = 0;
 
 init();
 
@@ -529,13 +530,14 @@ function renderMap() {
   const firstLevel = data.levels[0];
   const firstNode = data.map.nodes[0];
   if (firstLevel?.arrivalMode && firstNode) {
-    const introBadge = buildRouteBadge(
+    const introObject = buildTravelObject(
       firstLevel.arrivalMode,
-      clamp(firstNode.x + 10, 8, 92),
-      clamp(firstNode.y + 11, 8, 92),
-      "start"
+      clamp(firstNode.x - 8, 8, 92),
+      clamp(firstNode.y + 12, 8, 92),
+      0,
+      "intro"
     );
-    el.map.appendChild(introBadge);
+    el.map.appendChild(introObject);
   }
 
   data.map.nodes.slice(0, -1).forEach((node, index) => {
@@ -543,12 +545,20 @@ function renderMap() {
     const label = data.levels[index]?.travelMode;
     if (!nextNode || !label) return;
 
-    const badge = buildRouteBadge(
+    const travelObject = buildTravelObject(
       label,
       clamp((node.x + nextNode.x) / 2, 8, 92),
-      clamp((node.y + nextNode.y) / 2 + (index % 2 === 0 ? -6 : 6), 8, 92)
+      clamp((node.y + nextNode.y) / 2 + (index % 2 === 0 ? -6 : 6), 8, 92),
+      index + 1
     );
-    el.map.appendChild(badge);
+    el.map.appendChild(travelObject);
+  });
+
+  data.map.nodes.forEach((node, index) => {
+    const resolvedIndex = resolveLevelIndex(node.levelId, index);
+    const level = data.levels[resolvedIndex];
+    if (!level) return;
+    el.map.appendChild(buildStopObject(level, node, resolvedIndex));
   });
 
   data.map.nodes.forEach((node, index) => {
@@ -640,15 +650,194 @@ function routeTone(label) {
   return "default";
 }
 
-function buildRouteBadge(label, x, y, variant = "") {
-  const badge = document.createElement("div");
-  badge.className = `route-badge ${routeTone(label)}`.trim();
-  if (variant) badge.classList.add(`route-badge--${variant}`);
-  badge.style.left = `${x}%`;
-  badge.style.top = `${y}%`;
-  badge.textContent = label;
-  badge.title = label;
-  return badge;
+function stopTone(title) {
+  const text = String(title || "").toLowerCase();
+  if (text.includes("japanese hotel")) return "inn";
+  if (text.includes("city hotel")) return "hotel";
+  if (text.includes("castle")) return "castle";
+  if (text.includes("beach")) return "resort";
+  if (text.includes("townhouse")) return "townhouse";
+  if (text.includes("pagoda")) return "pagoda";
+  if (text.includes("government")) return "government";
+  if (text.includes("hotel")) return "hotel";
+  return "default";
+}
+
+function compactTravelLabel(label) {
+  const text = String(label || "");
+  const lower = text.toLowerCase();
+
+  if (lower.includes("leapmotor")) return "Pink EV";
+  if (lower.includes("nissan")) return "Nissan Kicks";
+  if (lower.includes("toyota")) return "Toyota bZ4X";
+  if (lower.includes("plane")) return "Plane";
+  if (lower.includes("train")) return "Train";
+  return text;
+}
+
+function buildTravelObject(label, x, y, index = 0, variant = "") {
+  const tone = routeTone(label);
+  const figure = document.createElement("div");
+  figure.className = `map-figure map-figure--travel map-figure--${tone}`;
+  if (variant) figure.classList.add(`map-figure--${variant}`);
+  figure.style.left = `${x}%`;
+  figure.style.top = `${y}%`;
+  figure.style.animationDelay = `${index * 0.4}s`;
+
+  const icon = document.createElement("span");
+  icon.className = "map-figure__icon";
+  icon.innerHTML = buildTravelSvg(tone);
+
+  const labelEl = document.createElement("span");
+  labelEl.className = "map-figure__label";
+  labelEl.textContent = compactTravelLabel(label);
+  labelEl.title = label;
+
+  figure.append(icon, labelEl);
+  return figure;
+}
+
+function buildStopObject(level, node, index) {
+  const tone = stopTone(level.title);
+  const figure = document.createElement("div");
+  figure.className = `map-figure map-figure--stop map-figure--${tone} map-figure--offset-${index % 4}`;
+  if (index === state.currentLevelIndex && !state.finished) {
+    figure.classList.add("is-current");
+  }
+  figure.style.left = `${node.x}%`;
+  figure.style.top = `${node.y}%`;
+  figure.style.animationDelay = `${index * 0.35}s`;
+
+  const icon = document.createElement("span");
+  icon.className = "map-figure__icon";
+  icon.innerHTML = buildStopSvg(tone);
+
+  const [place, scene] = String(level.title || "").split(" - ");
+  const title = document.createElement("span");
+  title.className = "map-figure__title";
+  title.textContent = place || level.title;
+
+  const meta = document.createElement("span");
+  meta.className = "map-figure__meta";
+  meta.textContent = scene || "Stop";
+
+  figure.append(icon, title, meta);
+  return figure;
+}
+
+function buildTravelSvg(tone) {
+  if (tone === "plane") {
+    return `
+      <svg viewBox="0 0 72 40" aria-hidden="true">
+        <path d="M10 21h21l11-11h9l-7 11h16c3 0 3 5 0 5H44l7 11h-9L31 26H10c-3 0-3-5 0-5Z" fill="currentColor"></path>
+      </svg>
+    `;
+  }
+
+  if (tone === "train") {
+    return `
+      <svg viewBox="0 0 72 40" aria-hidden="true">
+        <rect x="12" y="6" width="48" height="24" rx="8" fill="currentColor"></rect>
+        <rect x="20" y="12" width="10" height="8" rx="2" fill="rgba(255,255,255,0.88)"></rect>
+        <rect x="34" y="12" width="10" height="8" rx="2" fill="rgba(255,255,255,0.88)"></rect>
+        <circle cx="24" cy="32" r="4" fill="currentColor"></circle>
+        <circle cx="48" cy="32" r="4" fill="currentColor"></circle>
+      </svg>
+    `;
+  }
+
+  return `
+    <svg viewBox="0 0 72 40" aria-hidden="true">
+      <rect x="16" y="12" width="36" height="14" rx="6" fill="currentColor"></rect>
+      <rect x="43" y="8" width="14" height="10" rx="4" fill="currentColor"></rect>
+      <circle cx="26" cy="30" r="4" fill="currentColor"></circle>
+      <circle cx="48" cy="30" r="4" fill="currentColor"></circle>
+    </svg>
+  `;
+}
+
+function buildStopSvg(tone) {
+  if (tone === "inn") {
+    return `
+      <svg viewBox="0 0 72 56" aria-hidden="true">
+        <path d="M14 24h44v20H14Z" fill="currentColor"></path>
+        <path d="M18 24l18-12 18 12" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+        <rect x="22" y="30" width="8" height="6" rx="1.5" fill="rgba(255,255,255,0.88)"></rect>
+        <rect x="42" y="30" width="8" height="6" rx="1.5" fill="rgba(255,255,255,0.88)"></rect>
+      </svg>
+    `;
+  }
+
+  if (tone === "hotel") {
+    return `
+      <svg viewBox="0 0 72 56" aria-hidden="true">
+        <rect x="18" y="10" width="36" height="36" rx="6" fill="currentColor"></rect>
+        <rect x="24" y="16" width="8" height="8" rx="2" fill="rgba(255,255,255,0.88)"></rect>
+        <rect x="40" y="16" width="8" height="8" rx="2" fill="rgba(255,255,255,0.88)"></rect>
+        <rect x="24" y="28" width="8" height="8" rx="2" fill="rgba(255,255,255,0.88)"></rect>
+        <rect x="40" y="28" width="8" height="8" rx="2" fill="rgba(255,255,255,0.88)"></rect>
+      </svg>
+    `;
+  }
+
+  if (tone === "castle") {
+    return `
+      <svg viewBox="0 0 72 56" aria-hidden="true">
+        <path d="M16 18h10v-6l6 4 6-4v6h8v-6l6 4 6-4v6h8v24H16Z" fill="currentColor"></path>
+        <rect x="32" y="28" width="8" height="14" rx="3" fill="rgba(255,255,255,0.88)"></rect>
+      </svg>
+    `;
+  }
+
+  if (tone === "resort") {
+    return `
+      <svg viewBox="0 0 72 56" aria-hidden="true">
+        <circle cx="50" cy="14" r="7" fill="currentColor"></circle>
+        <path d="M20 34c8-13 18-16 28-9-7 2-14 5-18 12Z" fill="currentColor"></path>
+        <path d="M18 42h36" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"></path>
+        <path d="M22 46c7 4 14 4 21 0" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"></path>
+      </svg>
+    `;
+  }
+
+  if (tone === "townhouse") {
+    return `
+      <svg viewBox="0 0 72 56" aria-hidden="true">
+        <path d="M18 24l18-12 18 12v20H18Z" fill="currentColor"></path>
+        <rect x="32" y="30" width="8" height="14" rx="2" fill="rgba(255,255,255,0.88)"></rect>
+      </svg>
+    `;
+  }
+
+  if (tone === "pagoda") {
+    return `
+      <svg viewBox="0 0 72 56" aria-hidden="true">
+        <path d="M36 8l3 6H33Z" fill="currentColor"></path>
+        <path d="M24 18h24l-2 5H26Z" fill="currentColor"></path>
+        <path d="M20 28h32l-3 6H23Z" fill="currentColor"></path>
+        <path d="M16 38h40l-4 8H20Z" fill="currentColor"></path>
+      </svg>
+    `;
+  }
+
+  if (tone === "government") {
+    return `
+      <svg viewBox="0 0 72 56" aria-hidden="true">
+        <path d="M16 20l20-10 20 10Z" fill="currentColor"></path>
+        <rect x="18" y="22" width="6" height="18" rx="2" fill="currentColor"></rect>
+        <rect x="30" y="22" width="6" height="18" rx="2" fill="currentColor"></rect>
+        <rect x="42" y="22" width="6" height="18" rx="2" fill="currentColor"></rect>
+        <rect x="54" y="22" width="6" height="18" rx="2" fill="currentColor"></rect>
+        <rect x="14" y="40" width="44" height="6" rx="3" fill="currentColor"></rect>
+      </svg>
+    `;
+  }
+
+  return `
+    <svg viewBox="0 0 72 56" aria-hidden="true">
+      <rect x="20" y="14" width="32" height="28" rx="8" fill="currentColor"></rect>
+    </svg>
+  `;
 }
 
 function renderQuestion() {
@@ -656,7 +845,7 @@ function renderQuestion() {
 
   el.levelTag.textContent = `Level ${state.currentLevelIndex + 1}`;
   el.levelName.textContent = level?.title || "";
-  el.journeyMeta.innerHTML = buildJourneyMeta(level);
+  el.journeyMeta.innerHTML = "";
   el.options.innerHTML = "";
   el.feedback.textContent = "";
   el.feedback.className = "feedback";
@@ -673,12 +862,10 @@ function renderQuestion() {
   }
 
   if (state.finished) {
-    el.levelTag.textContent = "Journey complete";
-    el.levelName.textContent = data.settings.endingTitle;
-    el.journeyMeta.innerHTML =
-      '<span class="journey-pill journey-pill--finish">Your special letter is ready</span>';
+    el.levelTag.textContent = "Congratulations";
+    el.levelName.textContent = "Journey complete";
     el.questionText.textContent =
-      "You reached the final stop. Open the envelope to read your special letter.";
+      "You reached the final stop. Your heart envelope is ready with a special letter inside.";
 
     if (state.feedback) {
       el.feedback.textContent = state.feedback.text;
@@ -714,25 +901,6 @@ function renderQuestion() {
   el.nextBtn.classList.toggle("hidden", !state.readyNext);
   el.openLetterBtn.classList.add("hidden");
   el.questionActions.classList.toggle("hidden", !state.feedback);
-}
-
-function buildJourneyMeta(level) {
-  if (!level) return "";
-
-  const items = [];
-  if (level.arrivalMode) {
-    items.push(
-      `<span class="journey-pill journey-pill--arrival">${escapeHtml(level.arrivalMode)}</span>`
-    );
-  }
-
-  if (level.travelMode) {
-    items.push(
-      `<span class="journey-pill journey-pill--travel">Next: ${escapeHtml(level.travelMode)}</span>`
-    );
-  }
-
-  return items.join("");
 }
 
 function renderProgress() {
@@ -774,16 +942,18 @@ function openEndingModal() {
   if (!state?.finished) return;
 
   renderEndingLetter();
+  window.clearTimeout(endingRevealTimer);
   el.endingModal.classList.remove("hidden");
   el.endingModal.setAttribute("aria-hidden", "false");
   el.endingModal.classList.remove("is-open");
-
-  window.requestAnimationFrame(() => {
+  void el.endingModal.offsetWidth;
+  endingRevealTimer = window.setTimeout(() => {
     el.endingModal.classList.add("is-open");
-  });
+  }, 60);
 }
 
 function closeEndingModal() {
+  window.clearTimeout(endingRevealTimer);
   el.endingModal.classList.add("hidden");
   el.endingModal.classList.remove("is-open");
   el.endingModal.setAttribute("aria-hidden", "true");
@@ -803,6 +973,10 @@ async function submitAnswer(answerIndex) {
 
     state = normalizeState(response.state, data);
     renderAll();
+    if (response.correct && state.finished) {
+      completionShown = true;
+      openEndingModal();
+    }
   } catch (error) {
     setAuthHint(error.message);
   } finally {
@@ -1053,7 +1227,7 @@ function renderAdminCharacters() {
 
 function renderAdminLevels() {
   el.adminLevels.innerHTML = `
-    ${adminLead("Level questions", "Keep each stop clear, readable, and easy to tap through on a phone.")}
+    ${adminLead("Level questions", "Questions stay separate from the animated journey objects on the map. Edit the map objects here too.")}
     <div class="list" id="levelList">
       ${draftData.levels
         .map(
@@ -1074,10 +1248,10 @@ function renderAdminLevels() {
             )}" /></label>
           </div>
           <div class="field-grid">
-            <label>Arrival note<input data-field="arrivalMode" class="input" value="${escapeHtml(
+            <label>Arrival object<input data-field="arrivalMode" class="input" value="${escapeHtml(
               level.arrivalMode || ""
             )}" /></label>
-            <label>Travel to next<input data-field="travelMode" class="input" value="${escapeHtml(
+            <label>Travel object<input data-field="travelMode" class="input" value="${escapeHtml(
               level.travelMode || ""
             )}" /></label>
           </div>
